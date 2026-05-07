@@ -133,32 +133,6 @@ DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 
--- -----------------------------------------------------
--- Table `banco`.`conversas`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `banco`.`conversas` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `produtoId` INT NULL DEFAULT NULL,
-  `usuario1Id` INT NULL DEFAULT NULL,
-  `usuario2Id` INT NULL DEFAULT NULL,
-  `dataInicio` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `produtoId` (`produtoId` ASC, `usuario1Id` ASC, `usuario2Id` ASC) VISIBLE,
-  INDEX `usuario1Id` (`usuario1Id` ASC) VISIBLE,
-  INDEX `usuario2Id` (`usuario2Id` ASC) VISIBLE,
-  CONSTRAINT `conversas_ibfk_1`
-    FOREIGN KEY (`produtoId`)
-    REFERENCES `banco`.`produtos` (`idProduto`),
-  CONSTRAINT `conversas_ibfk_2`
-    FOREIGN KEY (`usuario1Id`)
-    REFERENCES `banco`.`usuarios` (`idUsuario`),
-  CONSTRAINT `conversas_ibfk_3`
-    FOREIGN KEY (`usuario2Id`)
-    REFERENCES `banco`.`usuarios` (`idUsuario`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
 
 -- -----------------------------------------------------
 -- Table `banco`.`favoritos`
@@ -182,28 +156,6 @@ DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 
--- -----------------------------------------------------
--- Table `banco`.`mensagens`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `banco`.`mensagens` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `conversaId` INT NULL DEFAULT NULL,
-  `remetenteId` INT NULL DEFAULT NULL,
-  `mensagem` TEXT NULL DEFAULT NULL,
-  `dataEnvio` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
-  `lida` TINYINT(1) NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  INDEX `conversaId` (`conversaId` ASC) VISIBLE,
-  INDEX `remetenteId` (`remetenteId` ASC) VISIBLE,
-  CONSTRAINT `mensagens_ibfk_1`
-    FOREIGN KEY (`conversaId`)
-    REFERENCES `banco`.`conversas` (`id`),
-  CONSTRAINT `mensagens_ibfk_2`
-    FOREIGN KEY (`remetenteId`)
-    REFERENCES `banco`.`usuarios` (`idUsuario`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
