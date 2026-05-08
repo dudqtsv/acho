@@ -26,7 +26,7 @@
                     <span>mostrar senha</span>
                 </div>
 
-                <?php require_once "../erro_login.php"; ?>
+                <?php require_once "./erro_login.php"; ?>
 
                 <input type="submit" value="Logar" id="submeter">
 
