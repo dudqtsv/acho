@@ -32,16 +32,16 @@ CREATE TABLE IF NOT EXISTS `banco`.`usuarios` (
   `usernameUsuario` VARCHAR(255) NOT NULL,
   `senhaUsuario` VARCHAR(255) NOT NULL,
   `dataCriacao` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
-  `estado_codigo_uf` INT NOT NULL,
-  `municipio_codigo_ibge` INT NOT NULL,
-  PRIMARY KEY (`idUsuario`, `estado_codigo_uf`),
+  `estado_codigoUf` INT NOT NULL,
+  `municipio_codigo` INT NOT NULL,
+  PRIMARY KEY (`idUsuario`, `estado_codigoUf`),
   UNIQUE INDEX `emailUsuario` (`emailUsuario` ASC) VISIBLE,
   UNIQUE INDEX `usernameUsuario` (`usernameUsuario` ASC) VISIBLE,
   UNIQUE INDEX `cpfUsuario` (`cpfUsuario` ASC) VISIBLE,
-  INDEX `fk_usuarios_municipio1_idx` (`municipio_codigo_ibge` ASC) VISIBLE,
+  INDEX `fk_usuarios_municipio1_idx` (`municipio_codigo` ASC) VISIBLE,
   CONSTRAINT `fk_usuarios_municipio1`
-    FOREIGN KEY (`municipio_codigo_ibge`)
-    REFERENCES `banco`.`municipio` (`codigo_ibge`))
+    FOREIGN KEY (`municipio_codigo`)
+    REFERENCES `banco`.`municipio` (`codigo`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
