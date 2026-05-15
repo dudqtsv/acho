@@ -2,7 +2,7 @@
 require_once "../conexao.php";
 $id = $_GET['id'];
 session_start();
-$user_id = $_SESSION['id'];
+$idUsuario = $_SESSION['id'];
 
 
 $sql_post = "

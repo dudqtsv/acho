@@ -4,17 +4,17 @@ session_start();
 $id = $_SESSION['id'];
 
 
-$produtos = $_POST['produtos'];
-$idUsuario = $id; 
+$conteudo = $_POST['conteudo'];
+$usuario_id = $id; 
 
 
     $sql = "INSERT INTO produtos (nomeProduto, descricaoProduto, precoProduto, statusProduto, dataPublicacaoProduto, usuario_idUsuario, fotoProduto) VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conexao, $sql);
-    mysqli_stmt_bind_param($stmt, "sssssis", $nomeProduto, $descricaoProduto, $precoProduto, $statusProduto, $dataPublicacaoProduto, $usuario_idUsuario, $fotoProdutp);
+    mysqli_stmt_bind_param($stmt, "sssssis", $nomeProduto, $descricaoProduto, $precoProduto, $statusProduto, $dataPublicacaoProduto, $usuario_idUsuario, $fotoProduto);
     mysqli_stmt_execute($stmt);
-    $idProduto = mysqli_insert_id($conexao);
+    $post_id = mysqli_insert_id($conexao);
 
- 
+
     if (!empty($_FILES['imagem']['name'])) {
         $pasta = "../imagens/";
         $nome_arquivo = uniqid() . "_" . basename($_FILES['imagem']['name']);
@@ -27,6 +27,6 @@ $idUsuario = $id;
         mysqli_stmt_bind_param($stmt_img, "si", $nome_arquivo, $post_id);
         mysqli_stmt_execute($stmt_img);
     }
-    header("Location: principal.php");
+    header("Location: feed.php");
     exit;
 ?>

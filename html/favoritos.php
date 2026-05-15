@@ -9,7 +9,7 @@ $idUsuario = $_GET['idUsuario'];
 
 
 //verifica se já favoritou
-$sql = "SELECT * FROM favoritos WHERE posts_id = ? AND idUsuario$idUsuario = ?";
+$sql = "SELECT * FROM favoritos WHERE idProduto = ? AND idUsuario$idUsuario = ?";
 $stmt = mysqli_prepare($conexao, $sql);
 mysqli_stmt_bind_param($stmt, "ii", $idProduto, $idUsuario);
 mysqli_stmt_execute($stmt);
@@ -30,7 +30,7 @@ echo "
     <input type='hidden' name='idProduto' value='$idProduto'>
     <input type='hidden' name='idUsuario' value='$idUsuario'>
     <button type='submit' style='background: none; border: none; font-size: 20px; cursor: pointer;'>
-      " . ($ja_favoritou ? '❤️' : '♡') . "
+      " . ($ja_favoritou ? '♥' : '♡') . "
     </button>
     <span style='font-size: 14px;'>$total</span>
   </form>

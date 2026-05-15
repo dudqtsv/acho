@@ -1,11 +1,36 @@
 <?php
+session_start();
+require_once "./conexao.php";
+//
+if (isset($_GET['id'])) {
 
-$id = 0;
-$nomeusuario = "";
-$emailUsuario = "";
-$dataNascimentoUsuario = "";
-$cpfUsuario = "";
-$usernameUsuario = "";
+    // echo "editar...";
+    $id = $_GET['id'];
+    $sql = "SELECT * FROM usuarios WHERE idUsuario = ?";
+    $comando = mysqli_prepare($conexao, $sql);
+    mysqli_stmt_bind_param($comando, 'i', $id);
+    mysqli_stmt_execute($comando);
+    $resultados = mysqli_stmt_get_result($comando);
+    $usuario = mysqli_fetch_assoc($resultados);
+    $nome = $usuario['nomeUsuario'];
+    $data_nascimento = $usuario['dataNascimentoUsuario'];
+    $email = $usuario['emailUsuario'];
+    $cpf = $usuario['cpfUsuario'];
+    $senha = $usuario['senhaUsuario'];
+    $username = $usuario['usernameUsuario'];
+    $foto = $usuario['fotoUsuario'];
+    
+} else {
+    // echo "criar conta...";
+    $id = 0;
+    $nome = "";
+    $data_nascimento = "";
+    $email = "";
+    $cpf = "";
+    $senha = "";
+    $username = "";
+    $foto = "";
+}
 ?>
 
 <!DOCTYPE html>
@@ -14,6 +39,8 @@ $usernameUsuario = "";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Usuário</title>
+    <a href="index.php"></a>
+
 </head>
 
 <body id="cadastro">
@@ -28,10 +55,10 @@ $usernameUsuario = "";
             Nome de usuário:
             <input 
                 type="text" 
-                name="nick" 
-                id="nick" 
-                placeholder="Nome único"
-                value="<?php echo $nomeusuario; ?>"
+                name="nome" 
+                id="nome" 
+                placeholder="Nome Completo"
+                value="<?php echo $nome; ?>"
             >
 
             <br><br>
@@ -43,7 +70,7 @@ $usernameUsuario = "";
                 id="email" 
                 required 
                 placeholder="Seu email"
-                value="<?php echo $emailUsuario; ?>"
+                value="<?php echo $email; ?>"
             >
 
             <br><br>
@@ -53,7 +80,7 @@ $usernameUsuario = "";
                 type="date" 
                 name="nascimento" 
                 id="nascimento"
-                value="<?php echo $dataNascimentoUsuario; ?>"
+                value="<?php echo $data_nascimento; ?>"
             >
 
             <br><br>
@@ -61,11 +88,11 @@ $usernameUsuario = "";
             CPF:
             <input 
                 type="text" 
-                name="CPF" 
-                id="CPF" 
+                name="cpf" 
+                id="cpf" 
                 placeholder="Informe o seu CPF" 
                 required
-                value="<?php echo $cpfUsuario; ?>"
+                value="<?php echo $cpf; ?>"
             >
 
             <br><br>
@@ -77,7 +104,7 @@ $usernameUsuario = "";
                 id="username"
                 placeholder="Informe o seu username" 
                 required
-                value="<?php echo $usernameUsuario; ?>" 
+                value="<?php echo $username; ?>" 
             >
 
             <br><br>

@@ -28,7 +28,7 @@
 
             <form action="saida.php" method="POST">
                 Nome de usuário:
-                <input type="text" name="nick" id="nick" required>
+                <input type="text" name="username" id="username" required>
 
                 Senha:
                 <input type="password" name="senha" id="senha" required>
@@ -42,9 +42,7 @@
                 <div class="register">
                     Não possui uma conta? <a href="./login.php">Cadastre-se</a>
                 </div>
-            </form>
-
-            </script>
+    </form>
                 <!-- olhinhoooooooooo da senha :D -->
                 <script>
                     const senhaInput = document.getElementById("senha");
