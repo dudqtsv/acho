@@ -34,17 +34,22 @@ CREATE TABLE IF NOT EXISTS `banco`.`usuarios` (
   `dataCriacao` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   `municipio_codigo` INT NOT NULL,
   `fotoUsuario` VARCHAR(255) NULL DEFAULT NULL,
+
   PRIMARY KEY (`idUsuario`),
-  UNIQUE INDEX `emailUsuario` (`emailUsuario` ASC) VISIBLE,
-  UNIQUE INDEX `usernameUsuario` (`usernameUsuario` ASC) VISIBLE,
-  UNIQUE INDEX `cpfUsuario` (`cpfUsuario` ASC) VISIBLE,
-  INDEX `fk_usuarios_municipio1_idx` (`municipio_codigo` ASC) VISIBLE,
-  CONSTRAINT `fk_usuarios_municipio1`
+
+  UNIQUE INDEX `emailUsuario` (`emailUsuario` ASC),
+  UNIQUE INDEX `usernameUsuario` (`usernameUsuario` ASC),
+  UNIQUE INDEX `cpfUsuario` (`cpfUsuario` ASC),
+
+  INDEX `fk_usuarios_municipios_idx` (`municipio_codigo` ASC),
+
+  CONSTRAINT `fk_usuarios_municipios`
     FOREIGN KEY (`municipio_codigo`)
-    REFERENCES `banco`.`municipio` (`codigo`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    REFERENCES `banco`.`municipios` (`codigo`)
+
+) ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8mb4
+COLLATE=utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -131,31 +136,26 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 -- -----------------------------------------------------
 -- Table `banco`.`municipios`
--- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `banco`.`municipios` (
-  `id` INT NOT NULL AUTO_INCREMENT,
   `codigo` INT NOT NULL,
   `nome` VARCHAR(255) NOT NULL,
   `uf` CHAR(2) NOT NULL,
   `estados_id` INT NOT NULL,
-  `usuarios_idUsuario` INT NOT NULL,
-  `usuarios_estado_codigoUf` INT NOT NULL,
-  PRIMARY KEY (`id`, `usuarios_idUsuario`, `usuarios_estado_codigoUf`),
-  INDEX `fk_municipios_estados1_idx` (`estados_id` ASC) VISIBLE,
-  INDEX `fk_municipios_usuarios1_idx` (`usuarios_idUsuario` ASC, `usuarios_estado_codigoUf` ASC) VISIBLE,
-  CONSTRAINT `fk_municipios_estados1`
+
+  PRIMARY KEY (`codigo`),
+
+  INDEX `fk_municipios_estados_idx` (`estados_id` ASC),
+
+  CONSTRAINT `fk_municipios_estados`
     FOREIGN KEY (`estados_id`)
     REFERENCES `banco`.`estados` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_municipios_usuarios1`
-    FOREIGN KEY (`usuarios_idUsuario`)
-    REFERENCES `banco`.`usuarios` (`idUsuario`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    ON UPDATE NO ACTION
+
+) ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8mb4
+COLLATE=utf8mb4_0900_ai_ci;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
