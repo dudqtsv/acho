@@ -5,53 +5,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <style>
- /* ===== Ícone do olho ===== */
-        #toggleSenha {
-            margin-left: 8px;
-            cursor: pointer;
-            color: #999;
-            transition: color 0.3s ease;
-        }
-
-        #toggleSenha:hover {
-            color: #f1c40f;
-        }
-    </style>
 </head>
 
 <body id="login">
 
-    <div class="container_login">
-        <div class="form-section">
-            <h2>Log in</h2>
+            <?php
+            if (isset($_GET['msg'])) {
+                $msg = $_GET['msg'];
+            } else {
+                $msg = 0;
+            }
+            if ($msg != 0) {
+                echo "<p>Usuário inexistente</p>";
+            }
+            if (isset($_GET['erro'])) {
+                $erro1 = $_GET['erro'];
+            } else {
+                $erro1 = 0;
+            }
+            if ($erro1 != 0) {
+                echo "<p>Não é possível acessar essa página sem uma conta logada.</p>";
+            }
+            ?>
 
-            <form action="saida.php" method="POST">
-                Nome de usuário:
-                <input type="text" name="username" id="username" required>
 
-                Senha:
-                <input type="password" name="senha" id="senha" required>
+            <form action="./login.php" method="post">
+                <h1>Área de Login</h1>
+                <p>Username</p>
+                <input type="text" name="username" required>
+                <p>Senha</p>
+                <input type="password" name="senha" required>
+                <p><input type="submit" id="submit" value="Entrar"></p>
+                <p>Ainda não possui acesso?
+                    <a href="./formCadastro.php">Cadastre-se</a>!
+                </p>
+            </form>
+</body>
 
-
-
-                <?php require_once "./erro_login.php"; ?>
-
-                <input type="submit" value="Logar" id="submeter">
-
-                <div class="register">
-                    Não possui uma conta? <a href="./login.php">Cadastre-se</a>
-                </div>
-    </form>
-                <!-- olhinhoooooooooo da senha :D -->
-                <script>
-                    const senhaInput = document.getElementById("senha");
-                    const toggleSenha = document.getElementById("toggleSenha");
-
-                    toggleSenha.addEventListener("click", () => {
-                        const isPassword = senhaInput.type === "password";
-                        senhaInput.type = isPassword ? "text" : "password";
-                        toggleSenha.classList.toggle("bi-eye");
-                        toggleSenha.classList.toggle("bi-eye-slash");
-                    });
-                </script>
+</html>

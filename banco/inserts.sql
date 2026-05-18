@@ -1,3 +1,46 @@
+INSERT INTO `banco`.`usuarios`
+(`nomeUsuario`, `emailUsuario`, `dataNascimentoUsuario`, `cpfUsuario`, `usernameUsuario`, `senhaUsuario`, `municipio_codigo`, `fotoUsuario`)
+VALUES
+('João Silva', 'joao.silva@email.com', '1998-03-15', '12345678901', 'joaosilva', 'senha123', 1, NULL),
+
+('Maria Oliveira', 'maria.oliveira@email.com', '1995-07-22', '12345678902', 'mariaoliveira', 'senha123', 2, NULL),
+
+('Carlos Souza', 'carlos.souza@email.com', '2000-01-10', '12345678903', 'carlossouza', 'senha123', 3, NULL),
+
+('Ana Pereira', 'ana.pereira@email.com', '1997-11-08', '12345678904', 'anapereira', 'senha123', 4, NULL),
+
+('Lucas Santos', 'lucas.santos@email.com', '1999-06-30', '12345678905', 'lucassantos', 'senha123', 5, NULL),
+
+('Fernanda Lima', 'fernanda.lima@email.com', '1996-09-14', '12345678906', 'fernandalima', 'senha123', 6, NULL),
+
+('Pedro Almeida', 'pedro.almeida@email.com', '2001-04-25', '12345678907', 'pedroalmeida', 'senha123', 7, NULL),
+
+('Juliana Rocha', 'juliana.rocha@email.com', '1994-12-03', '12345678908', 'julianarocha', 'senha123', 8, NULL),
+
+('Rafael Costa', 'rafael.costa@email.com', '1993-08-19', '12345678909', 'rafaelcosta', 'senha123', 9, NULL),
+
+('Camila Ferreira', 'camila.ferreira@email.com', '2002-02-11', '12345678910', 'camilaferreira', 'senha123', 10, NULL),
+
+('Bruno Martins', 'bruno.martins@email.com', '1990-05-17', '12345678911', 'brunomartins', 'senha123', 11, NULL),
+
+('Patricia Gomes', 'patricia.gomes@email.com', '1998-10-27', '12345678912', 'patriciagomes', 'senha123', 12, NULL),
+
+('Diego Ribeiro', 'diego.ribeiro@email.com', '1991-01-05', '12345678913', 'diegoribeiro', 'senha123', 13, NULL),
+
+('Larissa Carvalho', 'larissa.carvalho@email.com', '2003-07-09', '12345678914', 'larissacarvalho', 'senha123', 14, NULL),
+
+('Gabriel Melo', 'gabriel.melo@email.com', '1997-03-28', '12345678915', 'gabrielmelo', 'senha123', 15, NULL),
+
+('Amanda Teixeira', 'amanda.teixeira@email.com', '1995-11-16', '12345678916', 'amandateixeira', 'senha123', 16, NULL),
+
+('Thiago Barbosa', 'thiago.barbosa@email.com', '1992-09-01', '12345678917', 'thiagobarbosa', 'senha123', 17, NULL),
+
+('Beatriz Nunes', 'beatriz.nunes@email.com', '2000-12-20', '12345678918', 'beatriznunes', 'senha123', 18, NULL),
+
+('Eduardo Castro', 'eduardo.castro@email.com', '1996-04-13', '12345678919', 'eduardocastro', 'senha123', 19, NULL),
+
+('Isabela Moreira', 'isabela.moreira@email.com', '1999-08-07', '12345678920', 'isabelamoreira', 'senha123', 20, NULL);
+
 INSERT INTO produtos
 (nomeProduto, descricaoProduto, precoProduto, statusProduto, usuario_idUsuario)
 VALUES
