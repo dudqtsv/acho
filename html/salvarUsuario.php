@@ -2,6 +2,7 @@
 session_start();
 require_once "./conexao.php";
 
+
 $nome = $_POST['nome'];
 $data_nascimento = $_POST['data_nascimento'];
 $email = $_POST['email'];
@@ -11,6 +12,20 @@ $senha = $_POST['senha'];
 $foto = $_FILES['foto'];
 $municipio = $_POST['municipio'];
 $_SESSION['nome_usuario'] = $nome;
+
+$sql = "SELECT * FROM tb_usuario WHERE usuario_email = ? AND usuario_senha = ?";
+$comando = mysqli_prepare($conexao, $sql);
+mysqli_stmt_bind_param($comando, 'ss', $email, $senha);
+
+mysqli_stmt_execute($comando);
+
+$resultados = mysqli_stmt_get_result($comando);
+$quantidade = mysqli_num_rows($resultados);
+
+    $usuario = mysqli_fetch_assoc($resultados);
+    $id = $usuario['idUsuario'];
+
+    $_SESSION['id_usuario'] = $id;
 
 if (empty($email) || empty($senha) || empty($nome) || empty($data_nascimento) || empty($cpf) || empty($username) || empty($municipio)) {
     header("Location: formCadastro.php?erro=vazio");
@@ -22,7 +37,7 @@ $id = $_GET['id'];
 if ($id == 0) {
     // criar conta
     if (empty($nome_arquivo)) {
-        $novo_nome = "../fotos/generico.png";
+        $novo_nome = "./fotos/generico.png";
     } else {
         $caminho_temporario = $_FILES['foto']['tmp_name'];
         $extensao = pathinfo($nome_arquivo, PATHINFO_EXTENSION);
@@ -39,6 +54,8 @@ if ($id == 0) {
 
 
     mysqli_stmt_close($comando);
+
+    $_SESSION['foto_usuario'] = $novo_nome;
 
     header("Location: index.php?id=$id");
 } 
@@ -61,8 +78,10 @@ else {
     }
     mysqli_stmt_execute($comando);
 
+    $_SESSION['foto_usuario'] = $novo_nome;
 
     mysqli_stmt_close($comando);
     
     header("Location: ./usuarioConta.php?id=$id");
 }
+

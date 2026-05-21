@@ -6,7 +6,7 @@ if (isset($_GET['id'])) {
 
     // echo "editar...";
     $id = $_GET['id'];
-    $sql = "SELECT * FROM tb_usuario WHERE usuario_id = ?";
+    $sql = "SELECT * FROM usuarios WHERE idUsuario = ?";
     $comando = mysqli_prepare($conexao, $sql);
     mysqli_stmt_bind_param($comando, 'i', $id);
     mysqli_stmt_execute($comando);
