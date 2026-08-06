@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once "../conexao.php";
+require_once "conexao.php";
 
 $idProduto = $_GET['idProduto'] ;
 $idUsuario = $_GET['idUsuario'];

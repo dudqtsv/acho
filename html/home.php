@@ -4,9 +4,10 @@ require 'verificarLogin.php';
 verificarLogin();
 $id = $_SESSION['id'];
 
+include "header.php";
 ?>
 
-//colocar na pagina principal (html)
+
 <form action="pesquisa.php" method="GET">
     <input type="text" name="pesquisa" placeholder="Pesquisar produto...">
     <button type="submit">Pesquisar</button>
