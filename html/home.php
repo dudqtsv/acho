@@ -6,7 +6,15 @@ $id = $_SESSION['id'];
 
 ?>
 
+//colocar na pagina principal (html)
+<form action="pesquisa.php" method="GET">
+    <input type="text" name="pesquisa" placeholder="Pesquisar produto...">
+    <button type="submit">Pesquisar</button>
+</form>
 
-<a href="formCadastro.php?id=<?= $id ?>">editar perfil</a>
-<a href="logout.php">sair da sessão</a>
-<a href="usuarioConta.php">perfil</a>
+
+<a href="formCadastro.php?id=<?= $id ?>">Editar perfil</a> <br>
+<a href="logout.php">Sair da sessão</a> <br>
+<a href="usuarioConta.php">Perfil</a> <br>
+<a href="anunciarProduto.php">Anunciar produto</a> <br>
+<a href="favoritos.php">Favoritos</a> <br>
