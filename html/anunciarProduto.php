@@ -22,7 +22,7 @@ if (isset($_POST['publicar'])) {
 
     if (isset($_FILES['fotos']) && $_FILES['fotos']['name'][0] != "") {
 
-        $pasta = "uploads/produtos/";
+        $pasta = "../fotos/produto/";
 
         if (!file_exists($pasta)) {
             mkdir($pasta, 0777, true);

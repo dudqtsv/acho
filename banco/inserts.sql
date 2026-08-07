@@ -3213,76 +3213,76 @@ Insert into municipios (codigo, nome, uf, estados_id) values (3300233,'Armação
 Insert into municipios (codigo, nome, uf, estados_id) values (3300258,'Arraial do Cabo', 'RJ', 19);
 Insert into municipios (codigo, nome, uf, estados_id) values (3300308,'Barra do Piraí', 'RJ', 19);
 Insert into municipios (codigo, nome, uf, estados_id) values (3300407,'Barra Mansa', 'RJ', 19);
-Insert into municipios (codigo, nome, uf) values (3300456,'Belford Roxo', 'RJ', 19);
+Insert into municipios (codigo, nome, uf, estaf) values (3300456,'Belford Roxo', 'RJ', 19);
+
 
 INSERT INTO `banco`.`usuarios`
-(`nomeUsuario`, `emailUsuario`, `dataNascimentoUsuario`, `cpfUsuario`, `usernameUsuario`, `senhaUsuario`, `municipio_codigo`, `fotoUsuario`)
+(`idUsuario`, `nomeUsuario`, `emailUsuario`, `dataNascimentoUsuario`, `cpfUsuario`, `usernameUsuario`, `senhaUsuario`, `municipio_codigo`, `fotoUsuario`)
 VALUES
-('João Silva', 'joao.silva@email.com', '1998-03-15', '12345678901', 'joaosilva', 'senha123', 1100015, NULL),
+('1', 'João Silva', 'joao.silva@email.com', '1998-03-15', '12345678901', 'joaosilva', 'senha123', 1100015, NULL),
 
-('Maria Oliveira', 'maria.oliveira@email.com', '1995-07-22', '12345678902', 'mariaoliveira', 'senha123', 1100023, NULL),
+('2', 'Maria Oliveira', 'maria.oliveira@email.com', '1995-07-22', '12345678902', 'mariaoliveira', 'senha123', 1100023, NULL),
 
-('Carlos Souza', 'carlos.souza@email.com', '2000-01-10', '12345678903', 'carlossouza', 'senha123', 1100031, NULL),
+('3', 'Carlos Souza', 'carlos.souza@email.com', '2000-01-10', '12345678903', 'carlossouza', 'senha123', 1100031, NULL),
 
-('Ana Pereira', 'ana.pereira@email.com', '1997-11-08', '12345678904', 'anapereira', 'senha123', 1100049, NULL),
+('4', 'Ana Pereira', 'ana.pereira@email.com', '1997-11-08', '12345678904', 'anapereira', 'senha123', 1100049, NULL),
 
-('Lucas Santos', 'lucas.santos@email.com', '1999-06-30', '12345678905', 'lucassantos', 'senha123', 1100056, NULL),
+('5','Lucas Santos', 'lucas.santos@email.com', '1999-06-30', '12345678905', 'lucassantos', 'senha123', 1100056, NULL),
 
-('Fernanda Lima', 'fernanda.lima@email.com', '1996-09-14', '12345678906', 'fernandalima', 'senha123', 1100064, NULL),
+('6','Fernanda Lima', 'fernanda.lima@email.com', '1996-09-14', '12345678906', 'fernandalima', 'senha123', 1100064, NULL),
 
-('Pedro Almeida', 'pedro.almeida@email.com', '2001-04-25', '12345678907', 'pedroalmeida', 'senha123', 1100072, NULL),
+('7','Pedro Almeida', 'pedro.almeida@email.com', '2001-04-25', '12345678907', 'pedroalmeida', 'senha123', 1100072, NULL),
 
-('Juliana Rocha', 'juliana.rocha@email.com', '1994-12-03', '12345678908', 'julianarocha', 'senha123', 1100080, NULL),
+('8','Juliana Rocha', 'juliana.rocha@email.com', '1994-12-03', '12345678908', 'julianarocha', 'senha123', 1100080, NULL),
 
-('Rafael Costa', 'rafael.costa@email.com', '1993-08-19', '12345678909', 'rafaelcosta', 'senha123', 1100098, NULL),
+('9','Rafael Costa', 'rafael.costa@email.com', '1993-08-19', '12345678909', 'rafaelcosta', 'senha123', 1100098, NULL),
 
-('Camila Ferreira', 'camila.ferreira@email.com', '2002-02-11', '12345678910', 'camilaferreira', 'senha123', 1100106, NULL),
+('10','Camila Ferreira', 'camila.ferreira@email.com', '2002-02-11', '12345678910', 'camilaferreira', 'senha123', 1100106, NULL),
 
-('Bruno Martins', 'bruno.martins@email.com', '1990-05-17', '12345678911', 'brunomartins', 'senha123', 1100114, NULL),
+('11','Bruno Martins', 'bruno.martins@email.com', '1990-05-17', '12345678911', 'brunomartins', 'senha123', 1100114, NULL),
 
-('Patricia Gomes', 'patricia.gomes@email.com', '1998-10-27', '12345678912', 'patriciagomes', 'senha123', 1100122, NULL),
+('12','Patricia Gomes', 'patricia.gomes@email.com', '1998-10-27', '12345678912', 'patriciagomes', 'senha123', 1100122, NULL),
 
-('Diego Ribeiro', 'diego.ribeiro@email.com', '1991-01-05', '12345678913', 'diegoribeiro', 'senha123', 1100130, NULL),
+('13','Diego Ribeiro', 'diego.ribeiro@email.com', '1991-01-05', '12345678913', 'diegoribeiro', 'senha123', 1100130, NULL),
 
-('Larissa Carvalho', 'larissa.carvalho@email.com', '2003-07-09', '12345678914', 'larissacarvalho', 'senha123', 1100148, NULL),
+('14','Larissa Carvalho', 'larissa.carvalho@email.com', '2003-07-09', '12345678914', 'larissacarvalho', 'senha123', 1100148, NULL),
 
-('Gabriel Melo', 'gabriel.melo@email.com', '1997-03-28', '12345678915', 'gabrielmelo', 'senha123', 1100155, NULL),
+('15','Gabriel Melo', 'gabriel.melo@email.com', '1997-03-28', '12345678915', 'gabrielmelo', 'senha123', 1100155, NULL),
 
-('Amanda Teixeira', 'amanda.teixeira@email.com', '1995-11-16', '12345678916', 'amandateixeira', 'senha123', 1100189, NULL),
+('16','Amanda Teixeira', 'amanda.teixeira@email.com', '1995-11-16', '12345678916', 'amandateixeira', 'senha123', 1100189, NULL),
 
-('Thiago Barbosa', 'thiago.barbosa@email.com', '1992-09-01', '12345678917', 'thiagobarbosa', 'senha123', 1100205, NULL),
+('17','Thiago Barbosa', 'thiago.barbosa@email.com', '1992-09-01', '12345678917', 'thiagobarbosa', 'senha123', 1100205, NULL),
 
-('Beatriz Nunes', 'beatriz.nunes@email.com', '2000-12-20', '12345678918', 'beatriznunes', 'senha123', 1100254, NULL),
+('18','Beatriz Nunes', 'beatriz.nunes@email.com', '2000-12-20', '12345678918', 'beatriznunes', 'senha123', 1100254, NULL),
 
-('Eduardo Castro', 'eduardo.castro@email.com', '1996-04-13', '12345678919', 'eduardocastro', 'senha123', 1100262, NULL),
+('19','Eduardo Castro', 'eduardo.castro@email.com', '1996-04-13', '12345678919', 'eduardocastro', 'senha123', 1100262, NULL),
 
-('Isabela Moreira', 'isabela.moreira@email.com', '1999-08-07', '12345678920', 'isabelamoreira', 'senha123', 1100288, NULL);
+('20','Isabela Moreira', 'isabela.moreira@email.com', '1999-08-07', '12345678920', 'isabelamoreira', 'senha123', 1100288, NULL);
 
 INSERT INTO produtos
-(nomeProduto, descricaoProduto, precoProduto, statusProduto, usuario_idUsuario)
+(nomeProduto, descricaoProduto, precoProduto, statusProduto, usuario_idUsuario, fotoProduto)
 VALUES
-('iPhone 11', 'iPhone usado em ótimo estado', 2500.00, 'Usado', 1),
-('Notebook Dell', 'Notebook i5 8GB RAM', 3200.00, 'Seminovo', 2),
-('Bicicleta MTB', 'Bike aro 29 seminova', 1800.00, 'Usado', 3),
-('PlayStation 5', 'PS5 com 2 controles', 4200.00, 'Novo', 4),
-('Sofá Retrátil', 'Sofá confortável 3 lugares', 1500.00, 'Seminovo', 5),
-('TV Samsung 50', 'Smart TV 4K', 2800.00, 'Novo', 6),
-('Mesa Gamer', 'Mesa grande para setup', 700.00, 'Usado', 7),
-('Cadeira Gamer', 'Cadeira ergonômica', 950.00, 'Seminovo', 8),
-('Geladeira Brastemp', 'Frost free 400L', 2200.00, 'Usado', 9),
-('Fogão 5 bocas', 'Fogão inox', 1200.00, 'Novo', 10),
-('Guarda Roupa', '6 portas casal', 900.00, 'Seminovo', 11),
-('Moto G22', 'Celular Android', 850.00, 'Usado', 12),
-('Monitor LG', 'Monitor 24 polegadas', 600.00, 'Novo', 13),
-('Air Fryer', 'Air fryer 5 litros', 350.00, 'Novo', 14),
-('Microondas', 'Microondas 30L', 450.00, 'Seminovo', 15),
-('Xbox Series S', 'Console novo', 2400.00, 'Novo', 16),
-('Violão Yamaha', 'Violão acústico', 780.00, 'Usado', 17),
-('Tênis Nike', 'Tênis esportivo', 320.00, 'Novo', 18),
-('Relógio Smart', 'Smartwatch novo', 500.00, 'Seminovo', 19),
-('Cama Box', 'Cama casal box', 1300.00, 'Novo', 20),
-('Drone DJI', 'Drone com câmera 4K', 3500.00, 'Seminovo', 21),
-('Impressora HP', 'Impressora multifuncional', 650.00, 'Novo', 22),
-('Tablet Samsung', 'Tablet Android 64GB', 1100.00, 'Usado', 23),
-('Caixa JBL', 'Caixa bluetooth', 400.00, 'Novo', 24),
-('Ventilador Arno', 'Ventilador silencioso', 250.00, 'Seminovo', 25);
+('iPhone 11', 'iPhone usado em ótimo estado', 2500.00, 'Usado', 1, 'iphone11.jpg'),
+('Notebook Dell', 'Notebook i5 8GB RAM', 3200.00, 'Seminovo', 2, 'notebook.jpg'),
+('Bicicleta MTB', 'Bike aro 29 seminova', 1800.00, 'Usado', 3, 'bicicleta_mtb.jpg'),
+('PlayStation 5', 'PS5 com 2 controles', 4200.00, 'Novo', 4, 'playstation5.jpg'),
+('Sofá Retrátil', 'Sofá confortável 3 lugares', 1500.00, 'Seminovo', 5, 'sofa_retratil.jpg'),
+('TV Samsung 50"', 'Smart TV 4K', 2800.00, 'Novo', 6, 'tvsamsung_50.jpg'),
+('Mesa Gamer', 'Mesa grande para setup', 700.00, 'Usado', 7, 'mesa_gamer.jpg'),
+('Cadeira Gamer', 'Cadeira ergonômica', 950.00, 'Seminovo', 8, 'cadeira_gamer.jpg'),
+('Geladeira Brastemp', 'Frost Free 400L', 2200.00, 'Usado', 9, 'geladeira_brastemp.jpg'),
+('Fogão 5 bocas', 'Fogão inox', 1200.00, 'Novo', 10, 'fogao_5_bocas.jpg'),
+('Guarda-Roupa', 'Guarda-roupa casal 6 portas', 900.00, 'Seminovo', 11, 'guarda_roupa.jpg'),
+('Monitor LG', 'Monitor 24 polegadas', 600.00, 'Novo', 13, 'monitorlg.jpg'),
+('Air Fryer', 'Air Fryer 5 litros', 350.00, 'Novo', 14, 'airfryer.jpg'),
+('Micro-ondas', 'Micro-ondas 30L', 450.00, 'Seminovo', 15, 'microondas.jpg'),
+('Xbox Series S', 'Console Xbox Series S', 2400.00, 'Novo', 16, 'xboxconsole.jpg'),
+('Violão Yamaha', 'Violão acústico', 780.00, 'Usado', 17, 'violao.jpg'),
+('Tênis Nike', 'Tênis esportivo', 320.00, 'Novo', 18, 'tenisnike.jpg'),
+('Relógio Smart', 'Smartwatch', 500.00, 'Seminovo', 19, 'relogiosmart.jpg'),
+('Cama Box', 'Cama box casal', 1300.00, 'Novo', 20, 'camabox.jpg'),
+('Drone DJI', 'Drone com câmera 4K', 3500.00, 'Seminovo', 1, 'dronedji.jpg'),
+('Impressora HP', 'Impressora multifuncional', 650.00, 'Novo', 2, 'impressorahp.jpg'),
+('Tablet Samsung', 'Tablet Android 64GB', 1100.00, 'Usado', 3, 'tabletsamsung.jpg'),
+('Caixa JBL', 'Caixa de som Bluetooth', 400.00, 'Novo', 4, 'caixajbl.jpg'),
+('Ventilador Arno', 'Ventilador silencioso', 250.00, 'Seminovo', 5, 'ventiladorarno.jpg');
