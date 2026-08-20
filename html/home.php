@@ -4,7 +4,6 @@ require 'verificarLogin.php';
 verificarLogin();
 $id = $_SESSION['id'];
 
-include "header.php";
 ?>
 
 
@@ -19,3 +18,4 @@ include "header.php";
 <a href="usuarioConta.php">Perfil</a> <br>
 <a href="anunciarProduto.php">Anunciar produto</a> <br>
 <a href="favoritos.php">Favoritos</a> <br>
+<a href="avaliacoes.php">Avaliações</a> <br>

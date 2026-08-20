@@ -18,7 +18,7 @@ $usuario = $stmt->get_result()->fetch_assoc();
 $nome = $usuario['nomeUsuario'];
 $email = $usuario['emailUsuario'];
 $anoCadastro = date("Y", strtotime($usuario['dataCriacao']));
-$foto = $usuario['fotoUsuario'] ? $usuario['fotoUsuario'] : "img/avatar-padrao.png";
+$foto = $usuario['fotoUsuario'] ? $usuario['fotoUsuario'] : "../fotos/generico.png";
 
 // total de produtos do usuário
 $sql = "SELECT COUNT(*) as total FROM produtos WHERE usuario_idUsuario = ?";

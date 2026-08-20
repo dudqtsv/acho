@@ -8,8 +8,8 @@ $email = $_POST['email'];
 $cpf = $_POST['cpf'];
 $username = $_POST['username'];
 $senha = $_POST['senha'];
-$foto = $_FILES['foto'];
 $municipio = $_POST['municipio'];
+$foto = $_FILES['foto'];
 
 $_SESSION['nome_usuario'] = $nome;
 
@@ -24,12 +24,12 @@ $id = $_GET['id'];
 if ($id == 0) {
     // criar conta
     if (empty($nome_arquivo)) {
-        $novo_nome = "./fotos/generico.png";
+        $novo_nome = "../fotos/generico.png";
     } else {
         $caminho_temporario = $_FILES['foto']['tmp_name'];
         $extensao = pathinfo($nome_arquivo, PATHINFO_EXTENSION);
         $novo_nome = uniqid() . "." . $extensao;
-        $caminho_destino = "fotos/" . $novo_nome;
+        $caminho_destino = "../fotos/" . $novo_nome;
         move_uploaded_file($caminho_temporario, $caminho_destino);
     }
 
@@ -76,5 +76,5 @@ if ($id == 0) {
 
     mysqli_stmt_execute($comando);
     mysqli_stmt_close($comando);
-    header("Location: ./usuarioConta.php?id=$id");
+    header("Location: ./home.php?id=$id");
 }
