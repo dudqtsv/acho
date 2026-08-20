@@ -1,6 +1,8 @@
 <?php
 require_once "./conexao.php";
 session_start();
+require 'funcoes.php';
+verificarLogin();
 $id = $_SESSION['id'];
 
 

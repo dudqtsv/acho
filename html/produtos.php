@@ -1,43 +1,45 @@
 <?php
-require_once "../conexao.php";
-$id = $_GET['id'];
-session_start();
+
+require_once "funcoes.php";
+
+$idProdutos = $_GET['idProdutos'];
+
 $idUsuario = $_SESSION['id'];
 
-
-$sql_post = "
+$sql_produto = "
 SELECT 
-  p.id AS id_post,
-  p.conteudo,
-  p.data_hora,
-  p.usuario_id,
-  u.nick_name,
-  u.foto_perfil,
-  i.imagem,
-  (SELECT COUNT(*) FROM curtida c WHERE c.posts_id = p.id) AS curtidas,
-  (SELECT COUNT(*) FROM comentario WHERE comentario.post_id = p.id) AS comentarios
-FROM post p
-JOIN usuario u ON p.usuario_id = u.id
-LEFT JOIN imagem i ON p.id = i.posts_id
-WHERE p.id = ?
+    idProduto,
+    nomeProduto,
+    descricaoProduto,
+    precoProduto,
+    statusProduto,
+    dataPublicacaoProduto,
+    usuario_idUsuario,
+    fotoProduto
+FROM produtos
+WHERE idProduto = ?
 ";
-$stmt = mysqli_prepare($conexao, $sql_post);
-mysqli_stmt_bind_param($stmt, "i", $id);
+
+$stmt = mysqli_prepare($conexao, $sql_produto);
+
+mysqli_stmt_bind_param($stmt, "i", $idProduto);
+
 mysqli_stmt_execute($stmt);
+
 $resultado = mysqli_stmt_get_result($stmt);
-$post = mysqli_fetch_assoc($resultado);
 
-if (!$post) {
-  echo "Post não encontrado.";
-  exit;
+$produto = mysqli_fetch_assoc($resultado);
+
+if (!$produto) {
+    echo "Produto não encontrado.";
+    exit;
 }
-
 
 $sql_coment = "
 SELECT c.conteudo, u.nick_name, u.foto_perfil
 FROM comentario c
 JOIN usuario u ON c.usuario_id = u.id
-WHERE c.post_id = ?
+WHERE c.produtos_id = ?
 ORDER BY c.id ASC
 ";
 $stmt2 = mysqli_prepare($conexao, $sql_coment);
@@ -45,7 +47,7 @@ mysqli_stmt_bind_param($stmt2, "i", $id);
 mysqli_stmt_execute($stmt2);
 $comentarios = mysqli_stmt_get_result($stmt2);
 
-$foto_perfil = $post['foto_perfil'];
+$foto_perfil = $produtos['foto_perfil'];
 ?>
 
 <!DOCTYPE html>
@@ -53,8 +55,8 @@ $foto_perfil = $post['foto_perfil'];
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Post completo com comentários</title>
-  <link rel="stylesheet" href="../css/post.css">
+  <title>produtos completo com comentários</title>
+  <link rel="stylesheet" href="../css/produtos.css">
   <link rel="stylesheet" href="../css/feed.css">
   <link rel="stylesheet" href="../css/telas-menores.css">
 </head>
@@ -64,12 +66,12 @@ $foto_perfil = $post['foto_perfil'];
 
 <div class="caxona">
 
-  <div class="post_autor">
+  <div class="produtos_autor">
     <div class='autor'>
-      <img src='../imagens/<?php echo $post['foto_perfil']; ?>' class='foto_perfil'>
-      <span class='n_autor'><?php echo $post['nick_name']; ?></span>
+      <img src='../imagens/<?php echo $produtos['foto_perfil']; ?>' class='foto_perfil'>
+      <span class='n_autor'><?php echo $produtos['nick_name']; ?></span>
       <span id='ponto'>•</span> 
-      <span class='data-postagem'><?php echo date('d/m/Y H:i', strtotime($post['data_hora'])); ?></span>
+      <span class='data-produtosagem'><?php echo date('d/m/Y H:i', strtotime($produtos['data_hora'])); ?></span>
     </div>
     <a href="feed.php" class="voltar">
 <svg viewBox="0 0 24 24" width="20" height="20">
@@ -79,20 +81,20 @@ $foto_perfil = $post['foto_perfil'];
   </div>
 
   <div class="conteudo">
-    <p><?php echo htmlspecialchars($post['conteudo']); ?></p>
-    <?php if ($post['imagem']) { ?>
-      <img src="../imagens/<?php echo $post['imagem']; ?>" alt="Imagem do post" />
+    <p><?php echo htmlspecialchars($produtos['conteudo']); ?></p>
+    <?php if ($produtos['imagem']) { ?>
+      <img src="../imagens/<?php echo $produtos['imagem']; ?>" alt="Imagem do produtos" />
     <?php } ?>
     </div>
 
 
   <div class="comentarios">
-    <h3>Comentários (<?php echo $post['comentarios']; ?>)</h3>
+    <h3>Comentários (<?php echo $produtos['comentarios']; ?>)</h3>
 
 
     <div class="comentario">
-  <form action="comentar.php" method="post" class="campo-comentario">
-    <input type="hidden" name="post_id" value="<?php echo $post['id_post']; ?>">
+  <form action="comentar.php" method="produtos" class="campo-comentario">
+    <input type="hidden" name="produtos_id" value="<?php echo $produtos['id_produtos']; ?>">
     <input type="text" name="comentario" class="entrada" placeholder="Escreva seu comentário..." required />
     <button type="submit" class="botao-enviar" aria-label="Enviar comentário">
       <svg viewBox="0 0 24 24" width="20" height="20">
@@ -112,6 +114,7 @@ $foto_perfil = $post['foto_perfil'];
 
 
 </div>
+
 
 </body>
 </html>

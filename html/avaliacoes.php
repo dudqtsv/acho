@@ -1,7 +1,11 @@
 <?php
-require_once "../conexao.php";
 session_start();
 
+require_once "conexao.php";
+require_once "funcoes.php";
+verificarLogin();
+
+$id = $_SESSION['id'];
 // Verifica se o usuário está logado
 if (!isset($_SESSION['id'])) {
     header("Location: login.php");

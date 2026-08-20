@@ -1,7 +1,8 @@
 <?php
-session_start();
-
-require_once "conexao.php";
+require_once "./conexao.php";
+require 'funcoes.php';
+verificarLogin();
+$id = $_SESSION['id'];
 
 $idProduto = $_GET['idProduto'] ;
 $idUsuario = $_GET['idUsuario'];

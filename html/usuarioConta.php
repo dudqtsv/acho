@@ -189,7 +189,6 @@ $satisfacao = $resultado['total'] > 0 ? round(($resultado['boas'] / $resultado['
 </head>
 <body>
 
-<?php include "header.php"; ?>
 
 <div class="container">
 

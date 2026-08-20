@@ -64,7 +64,7 @@ if ($id == 0) {
         $caminho_temporario = $_FILES['foto']['tmp_name'];
         $extensao = pathinfo($nome_arquivo, PATHINFO_EXTENSION);
         $novo_nome = uniqid() . "." . $extensao;
-        $caminho_destino = "../fotos/usuario/" . $novo_nome;
+        $caminho_destino = "../fotos/" . $novo_nome;
         move_uploaded_file($caminho_temporario, $caminho_destino);
 
         $sql = "UPDATE usuarios SET nomeUsuario = ?, emailUsuario = ?, dataNascimentoUsuario = ?, cpfUsuario = ?, usernameUsuario = ?, senhaUsuario = ?, municipio_codigo = ?, fotoUsuario = ? WHERE idUsuario = ?";

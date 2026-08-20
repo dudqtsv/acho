@@ -1,9 +1,9 @@
 <?php
-require_once 'conexao.php';
-require 'verificarLogin.php';
-verificarLogin();
-$id = $_SESSION['id'];
+require 'funcoes.php';
 
+verificarLogin();
+
+$id = $_SESSION['id'];
 ?>
 
 
@@ -14,8 +14,14 @@ $id = $_SESSION['id'];
 
 
 <a href="formCadastro.php?id=<?= $id ?>">Editar perfil</a> <br>
-<a href="logout.php">Sair da sessão</a> <br>
 <a href="usuarioConta.php">Perfil</a> <br>
 <a href="anunciarProduto.php">Anunciar produto</a> <br>
-<a href="favoritos.php">abc</a> <br>
+<a href="favoritos.php">Favoritos</a> <br>
 <a href="avaliacoes.php">Avaliações</a> <br>
+<a href="produtos.php">produtos</a> <br>
+
+<br><br><br><br><br><br><br>
+
+
+
+<a href="logout.php">Sair da sessão</a> <br>

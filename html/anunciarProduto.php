@@ -1,10 +1,9 @@
 <?php
-session_start();
-require_once "conexao.php";
 
-if (!isset($_SESSION['idUsuario'])) {
-    $_SESSION['idUsuario'] = 1; // trocar depois pelo login de verdade
-}
+
+require 'funcoes.php';
+verificarLogin();
+$id = $_SESSION['id'];
 
 $idUsuario = $_SESSION['idUsuario'];
 $erro = "";
@@ -241,7 +240,6 @@ if (isset($_POST['publicar'])) {
 </head>
 <body>
 
-<?php include "header.php"; ?>
 
 <div class="container">
     <h1>Postar anúncio</h1>
