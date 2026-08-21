@@ -1,0 +1,10 @@
+pagina anunciar
+filtrar categorias 
+buscar produtos
+mostrar anuncios 
+
+
+funcao pronta js:
+https://formvalidation.io/
+
+validar formatação de cpf, data, etc
