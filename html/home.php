@@ -4,7 +4,31 @@ require 'funcoes.php';
 verificarLogin();
 
 $id = $_SESSION['id'];
+
+$resultado = listarProdutos($conexao);
+
+while ($produto = mysqli_fetch_assoc($resultado)) {
+
+    echo "<h2>" . htmlspecialchars($produto['nomeProduto']) . "</h2>";
+
+    echo "<p>" . htmlspecialchars($produto['descricaoProduto']) . "</p>";
+
+    echo "<p>R$ " . number_format($produto['precoProduto'], 2, ',', '.') . "</p>";
+
+    if (!empty($produto['fotoProduto'])) {
+        echo "<img src='" . htmlspecialchars($produto['fotoProduto']) . "' 
+                   width='200' 
+                   alt='Foto do produto'>";
+    }
+echo "<br>" ;
+
+    echo "<a href='produto.php?id=" . $produto [ 'idProduto' ] . "'>" ;
+    echo "Ver produto" ;
+    echo "</a>" ;
+    echo "<hr>" ;
+ }
 ?>
+
 
 
 <form action="pesquisa.php" method="GET">
@@ -19,6 +43,7 @@ $id = $_SESSION['id'];
 <a href="favoritos.php">Favoritos</a> <br>
 <a href="avaliacoes.php">Avaliações</a> <br>
 <a href="produtos.php">produtos</a> <br>
+
 
 <br><br><br><br><br><br><br>
 

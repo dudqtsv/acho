@@ -7,15 +7,7 @@ $idProdutos = $_GET['idProdutos'];
 $idUsuario = $_SESSION['id'];
 
 $sql_produto = "
-SELECT 
-    idProduto,
-    nomeProduto,
-    descricaoProduto,
-    precoProduto,
-    statusProduto,
-    dataPublicacaoProduto,
-    usuario_idUsuario,
-    fotoProduto
+SELECT  idProduto, nomeProduto, descricaoProduto, precoProduto, statusProduto, dataPublicacaoProduto, usuario_idUsuario, fotoProduto
 FROM produtos
 WHERE idProduto = ?
 ";
@@ -36,18 +28,18 @@ if (!$produto) {
 }
 
 $sql_coment = "
-SELECT c.conteudo, u.nick_name, u.foto_perfil
-FROM comentario c
-JOIN usuario u ON c.usuario_id = u.id
-WHERE c.produtos_id = ?
-ORDER BY c.id ASC
+SELECT conteudo, nick_name, foto_perfil
+FROM comentario 
+JOIN usuario ON comentario.usuario_id = usuario.id
+WHERE comentario.produtos_id = ?
+ORDER BY comentario.id ASC
 ";
 $stmt2 = mysqli_prepare($conexao, $sql_coment);
 mysqli_stmt_bind_param($stmt2, "i", $id);
 mysqli_stmt_execute($stmt2);
 $comentarios = mysqli_stmt_get_result($stmt2);
 
-$foto_perfil = $produtos['foto_perfil'];
+// $foto_perfil = $produtos['foto_perfil'];
 ?>
 
 <!DOCTYPE html>
