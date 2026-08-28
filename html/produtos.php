@@ -27,8 +27,7 @@ if (!$produto) {
 
 // Busca as avaliações (nota + comentário) desse produto, com dados de quem avaliou
 $sql_aval = "
-    SELECT avaliacoes.comentario, avaliacoes.nota, avaliacoes.dataAvaliacao,
-           usuarios.nomeUsuario, usuarios.usernameUsuario, usuarios.fotoUsuario
+    SELECT comentario, nota, dataAvaliacao, nomeUsuario, usernameUsuario, fotoUsuario
     FROM avaliacoes
     JOIN usuarios ON avaliacoes.idUsuario = usuarios.idUsuario
     WHERE avaliacoes.idProduto = ?
