@@ -11,7 +11,7 @@ function verificarLogin()
     }
 }
 
-function inserirusuarios($conexao, $nome, $email, $nascimento, $cpf, $usernameUsuario, $senha, $datacriacao, $municipio, $fotousuario)
+function inserirUsuarios($conexao, $nome, $email, $nascimento, $cpf, $usernameUsuario, $senha, $datacriacao, $municipio, $fotousuario)
 {
     $sql = "INSERT INTO usuarios (nome, email, nascimento, cpf, usernameUsuarios, senha, datacriacao, municipio, fotousuario)
             VALUES (?,?,?,?,?,?,?,?,?)";
@@ -61,14 +61,10 @@ function deletarUsuario($conexao, $id)
 }
 
 
-function listarProdutos($conexao)
-{
-    return $conexao->query("SELECT * FROM produtos");
-}
 
 
 
-function inserirmunicipio($conexao, $codigo, $nome, $uf, $estado, $usuarios_idUsuarios, $usuarios_estado_codigoUf, $tipo)
+function inserirMunicipio($conexao, $codigo, $nome, $uf, $estado, $usuarios_idUsuarios, $usuarios_estado_codigoUf, $tipo)
 {
     $sql = "INSERT INTO municipio (nome, uf, estado, usuarios_idusuarios, usuarios_estado_codigoUf, tipo)
             VALUES (?,?,?,?,?)";
@@ -77,10 +73,11 @@ function inserirmunicipio($conexao, $codigo, $nome, $uf, $estado, $usuarios_idUs
     return $stmt->execute();
 }
 
-function listarleitores($conexao)
+function listarProdutos($conexao)
 {
-    return $conexao->query("SELECT * FROM leitores");
+    return $conexao->query("SELECT * FROM produtos");
 }
+
 
 function buscarLeitores($conexao, $id)
 {

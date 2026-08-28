@@ -1,9 +1,10 @@
 <?php
-session_start();
-require_once "conexao.php";
+require "funcoes.php";
+verificarLogin();
+$id = $_SESSION['id'];
 
 if (!isset($_SESSION['idUsuario'])) {
-    $_SESSION['idUsuario'] = 1; // trocar depois pelo login de verdade
+    $_SESSION['idUsuario'] = $id; // trocar depois pelo login de verdade
 }
 
 $idUsuario = $_SESSION['idUsuario'];
@@ -18,7 +19,7 @@ $usuario = $stmt->get_result()->fetch_assoc();
 $nome = $usuario['nomeUsuario'];
 $email = $usuario['emailUsuario'];
 $anoCadastro = date("Y", strtotime($usuario['dataCriacao']));
-$foto = $usuario['fotoUsuario'] ? $usuario['fotoUsuario'] : "../fotos/generico.png";
+$foto = $usuario['fotoUsuario'];
 
 // total de produtos do usuário
 $sql = "SELECT COUNT(*) as total FROM produtos WHERE usuario_idUsuario = ?";
@@ -110,7 +111,9 @@ $satisfacao = $resultado['total'] > 0 ? round(($resultado['boas'] / $resultado['
         font-size: 14px;
     }
 
-    .card-perfil .botoes button {
+    .card-perfil .botoes a {
+        text-decoration: none;
+        color: #00000023;
         padding: 12px 20px;
         border-radius: 8px;
         border: 1px solid var(--cinza-borda);
@@ -200,8 +203,8 @@ $satisfacao = $resultado['total'] > 0 ? round(($resultado['boas'] / $resultado['
             <p>Membro desde <?= $anoCadastro ?></p>
         </div>
         <div class="botoes">
-            <button>Editar Perfil</button>
-            <button>Alterar Senha</button>
+            <a href="formCadastro.php?id=<?= $id ?>">Editar perfil</a>
+            <a href="home.php?id=<?= $id ?>">Página inicial</a>
         </div>
     </div>
 
@@ -269,7 +272,7 @@ $satisfacao = $resultado['total'] > 0 ? round(($resultado['boas'] / $resultado['
                     <path d="M16 15c2.5 0 5 1.5 5 4"/>
                 </svg>
                 <div class="numero"><?= $satisfacao ?>%</div>
-                <div>clientes satisfeitos</div>
+                <div>Clientes satisfeitos</div>
             </div>
         </div>
     </div>

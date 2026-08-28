@@ -1,8 +1,6 @@
 <?php
-session_start();
-
 require_once "conexao.php";
-require_once "funcoes.php";
+require "funcoes.php";
 verificarLogin();
 
 $id = $_SESSION['id'];
@@ -18,21 +16,15 @@ $idUsuario = $_SESSION['id'];
 $idProduto = $_POST['idProduto'];
 $comentario = $_POST['comentario'];
 $nota = $_POST['nota'];
+$dataAvaliacao = $_POST['dataAvaliacao'];
 
-// Insere a avaliação no banco
-$sql = "INSERT INTO avaliacoes (idUsuario, idProduto, comentario, nota)
-        VALUES (?, ?, ?, ?)";
+$sql = "INSERT INTO avaliacoes (idUsuario, idProduto, comentario, nota, dataAvaliacao)
+        VALUES (?, ?, ?, ?, ?)";
 
 $stmt = mysqli_prepare($conexao, $sql);
 
 mysqli_stmt_bind_param(
-    $stmt,
-    "iisi",
-    $idUsuario,
-    $idProduto,
-    $comentario,
-    $nota
-);
+    $stmt, "iisid", $idUsuario, $idProduto, $comentario, $nota, $dataAvaliacao);
 
 mysqli_stmt_execute($stmt);
 

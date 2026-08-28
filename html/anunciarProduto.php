@@ -1,6 +1,5 @@
 <?php
 
-
 require 'funcoes.php';
 verificarLogin();
 $id = $_SESSION['id'];
@@ -21,25 +20,42 @@ if (isset($_POST['publicar'])) {
 
     if (isset($_FILES['fotos']) && $_FILES['fotos']['name'][0] != "") {
 
-        $pasta = "../fotos/produto/";
+        // Caminho absoluto evita problemas de resolução relativa dependendo de onde o script roda
+        $pasta = $_SERVER['DOCUMENT_ROOT'] . '/../fotos/produto/';
 
         if (!file_exists($pasta)) {
             mkdir($pasta, 0777, true);
         }
 
-        $nomeArquivo = time() . "_" . $_FILES['fotos']['name'][0];
+        $nomeArquivo = time() . "_" . basename($_FILES['fotos']['name'][0]);
         $destino = $pasta . $nomeArquivo;
 
         if (move_uploaded_file($_FILES['fotos']['tmp_name'][0], $destino)) {
-            $foto = $destino;
+            $foto = "fotos/" . $nomeArquivo; // salva caminho relativo p/ exibir depois
         }
     }
 
-    $sql = "INSERT INTO produtos (nomeProduto, categoriaProduto, descricaoProduto, precoProduto, statusProduto, usuario_idUsuario, fotoProduto)
+    // Tabela produtos precisa ter as colunas categoriaProduto e condicaoProduto.
+    // Caso ainda não existam, rode antes:
+    // ALTER TABLE produtos
+    //   ADD COLUMN categoriaProduto VARCHAR(100) NULL AFTER nomeProduto,
+    //   ADD COLUMN condicaoProduto VARCHAR(50) NULL AFTER descricaoProduto;
+
+    $sql = "INSERT INTO produtos
+            (nomeProduto, categoriaProduto, descricaoProduto, condicaoProduto, precoProduto, usuario_idUsuario, fotoProduto)
             VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("sssdsis", $titulo, $categoria, $descricao, $preco, $condicao, $idUsuario, $foto);
+    $stmt->bind_param(
+        "ssssdis",
+        $titulo,
+        $categoria,
+        $descricao,
+        $condicao,
+        $preco,
+        $idUsuario,
+        $foto
+    );
 
     if ($stmt->execute()) {
         $sucesso = "Anúncio publicado com sucesso!";
@@ -239,7 +255,6 @@ if (isset($_POST['publicar'])) {
 </style>
 </head>
 <body>
-
 
 <div class="container">
     <h1>Postar anúncio</h1>

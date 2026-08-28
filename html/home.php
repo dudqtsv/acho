@@ -1,4 +1,6 @@
 <?php
+
+
 require 'funcoes.php';
 
 verificarLogin();
@@ -6,6 +8,7 @@ verificarLogin();
 $id = $_SESSION['id'];
 
 $resultado = listarProdutos($conexao);
+
 
 while ($produto = mysqli_fetch_assoc($resultado)) {
 
@@ -22,7 +25,7 @@ while ($produto = mysqli_fetch_assoc($resultado)) {
     }
 echo "<br>" ;
 
-    echo "<a href='produto.php?id=" . $produto [ 'idProduto' ] . "'>" ;
+    echo "<a href='produtos.php?id=" . $produto [ 'idProduto' ] . "'>" ;
     echo "Ver produto" ;
     echo "</a>" ;
     echo "<hr>" ;
@@ -30,6 +33,7 @@ echo "<br>" ;
 ?>
 
 
+<link rel="stylesheet" href="../css/home.css">
 
 <form action="pesquisa.php" method="GET">
     <input type="text" name="pesquisa" placeholder="Pesquisar produto...">
@@ -43,6 +47,7 @@ echo "<br>" ;
 <a href="favoritos.php">Favoritos</a> <br>
 <a href="avaliacoes.php">Avaliações</a> <br>
 <a href="produtos.php">produtos</a> <br>
+
 
 
 <br><br><br><br><br><br><br>

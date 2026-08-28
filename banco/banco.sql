@@ -162,6 +162,13 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
+ALTER TABLE avaliacoes 
+ADD UNIQUE (idUsuario, idProduto);
+
+ALTER TABLE produtos
+  ADD COLUMN categoriaProduto VARCHAR(100) NULL AFTER nomeProduto,
+  ADD COLUMN condicaoProduto VARCHAR(50) NULL AFTER descricaoProduto;
+
 
 
 Insert into estados (codigoUf, nome, uf, regiao) values (12, 'Acre', 'AC', 1);
