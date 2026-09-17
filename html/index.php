@@ -5,10 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-
+    <link rel="stylesheet" href="../login.css">
 </head>
 
 <body id="login">
+    <div class="login-page">
+        <div class="login-card">
+            <h1>Login</h1>
 
             <?php
             if (isset($_GET['msg'])) {
@@ -17,7 +20,7 @@
                 $msg = 0;
             }
             if ($msg != 0) {
-                echo "<p>Usuário inexistente</p>";
+                echo "<p class='login-msg'>Usuário inexistente</p>";
             }
             if (isset($_GET['erro'])) {
                 $erro1 = $_GET['erro'];
@@ -25,22 +28,23 @@
                 $erro1 = 0;
             }
             if ($erro1 != 0) {
-                echo "<p>Não é possível acessar essa página sem uma conta logada.</p>";
+                echo "<p class='login-msg'>Não é possível acessar essa página sem uma conta logada.</p>";
             }
             ?>
 
+            <form action="./login.php" method="post" class="login-form">
+                <label for="username">Nome de usuário</label>
+                <input type="text" id="username" name="username" placeholder="Nome do Usuário" required>
 
-            <form action="./login.php" method="post">
-                <h1>Área de Login</h1>
-                <p>Username</p>
-                <input type="text" name="username" required>
-                <p>Senha</p>
-                <input type="password" name="senha" required>
-                <p><input type="submit" id="submit" value="Entrar"></p>
-                <p>Ainda não possui acesso?
-                    <a href="./formCadastro.php">Cadastre-se</a>!
-                </p>
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" name="senha" placeholder="Senha" required>
+
+                <button type="submit" id="submit" class="btn-entrar">Entrar</button>
             </form>
+
+            <p class="cadastro-link">Não tem conta? <a href="./formCadastro.php">Cadastre-se</a></p>
+        </div>
+    </div>
 </body>
 
 </html>

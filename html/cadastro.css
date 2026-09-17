@@ -1,0 +1,185 @@
+/* ===== css/cadastro.css ===== */
+
+:root {
+    --azul-marinho: #1a1f6b;
+    --azul-marinho-escuro: #12154a;
+    --cinza-card: #f2f2f5;
+    --cinza-input: #e6e6eb;
+    --cinza-input-hover: #dcdce4;
+    --texto-titulo: #1a1f6b;
+    --texto-label: #2b2b38;
+    --texto-placeholder: #8a8a97;
+    --sombra-card: 0 20px 45px rgba(26, 31, 107, 0.12);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+    padding: 40px 24px;
+}
+
+.cadastro-page {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cadastro-card {
+    width: 100%;
+    max-width: 460px;
+    background: var(--cinza-card);
+    border-radius: 28px;
+    padding: 40px 40px 36px;
+    box-shadow: var(--sombra-card);
+}
+
+.cadastro-card h1 {
+    margin: 0 0 26px;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--texto-titulo);
+}
+
+.erro-msg {
+    background: #fdecec;
+    color: #b3261e;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    margin-bottom: 18px;
+}
+
+.cadastro-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.cadastro-form label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--texto-label);
+    margin: 14px 0 8px;
+}
+
+.cadastro-form label:first-of-type {
+    margin-top: 0;
+}
+
+.cadastro-form input[type="text"],
+.cadastro-form input[type="email"],
+.cadastro-form input[type="password"],
+.cadastro-form input[type="date"] {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: var(--cinza-input);
+    border-radius: 14px;
+    padding: 13px 18px;
+    font-size: 0.92rem;
+    color: var(--texto-label);
+    font-family: inherit;
+    transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cadastro-form input::placeholder {
+    color: var(--texto-placeholder);
+}
+
+.cadastro-form input:focus {
+    background: var(--cinza-input-hover);
+    box-shadow: 0 0 0 3px rgba(26, 31, 107, 0.15);
+}
+
+/* Campo de senha com o olhinho de mostrar/ocultar */
+.senha-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.senha-wrapper input {
+    padding-right: 44px;
+}
+
+.senha-wrapper #toggleSenha {
+    position: absolute;
+    right: 16px;
+    color: var(--texto-placeholder);
+    cursor: pointer;
+    font-size: 1.05rem;
+}
+
+.senha-wrapper #toggleSenha:hover {
+    color: var(--azul-marinho);
+}
+
+/* Upload de foto de perfil */
+.cadastro-form input[type="file"] {
+    background: var(--cinza-input);
+    border-radius: 14px;
+    padding: 10px 14px;
+    border: none;
+    font-size: 0.85rem;
+    color: var(--texto-label);
+}
+
+.foto-atual {
+    display: block;
+    margin-bottom: 10px;
+    border-radius: 14px;
+}
+
+.cadastro-form .btn-cadastrar {
+    align-self: center;
+    margin-top: 28px;
+    border: none;
+    cursor: pointer;
+    background: var(--azul-marinho);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    padding: 12px 46px;
+    border-radius: 999px;
+    transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.cadastro-form .btn-cadastrar:hover {
+    background: var(--azul-marinho-escuro);
+}
+
+.cadastro-form .btn-cadastrar:active {
+    transform: scale(0.98);
+}
+
+.cancelar-link {
+    display: block;
+    text-align: center;
+    margin-top: 16px;
+    font-size: 0.9rem;
+    color: var(--texto-label);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.cancelar-link:hover {
+    color: var(--azul-marinho);
+    text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+    .cadastro-card {
+        padding: 30px 24px 26px;
+        border-radius: 22px;
+    }
+}

@@ -10,7 +10,6 @@ if (!isset($_SESSION['id'])) {
 
 $idUsuario = $_SESSION['id'];
 
-// Valida se os dados vieram do formulário
 if (!isset($_POST['idProduto'], $_POST['comentario'], $_POST['nota'])) {
     die("Dados incompletos.");
 }
@@ -19,7 +18,6 @@ $idProduto  = $_POST['idProduto'];
 $comentario = trim($_POST['comentario']);
 $nota       = $_POST['nota'];
 
-// Validações simples
 if (!is_numeric($idProduto) || !is_numeric($nota)) {
     die("Dados inválidos.");
 }
@@ -32,9 +30,13 @@ if (empty($comentario)) {
     die("O comentário não pode estar vazio.");
 }
 
-// NOW() preenche a data/hora automaticamente no banco
+
 $sql = "INSERT INTO avaliacoes (idUsuario, idProduto, comentario, nota, dataAvaliacao)
-        VALUES (?, ?, ?, ?, NOW())";
+        VALUES (?, ?, ?, ?, NOW())
+        ON DUPLICATE KEY UPDATE
+            comentario = VALUES(comentario),
+            nota = VALUES(nota),
+            dataAvaliacao = NOW()";
 
 $stmt = mysqli_prepare($conexao, $sql);
 
@@ -42,7 +44,6 @@ if (!$stmt) {
     die("Erro ao preparar a query: " . mysqli_error($conexao));
 }
 
-// i = idUsuario, i = idProduto, s = comentario, i = nota
 mysqli_stmt_bind_param(
     $stmt, "iisi", $idUsuario, $idProduto, $comentario, $nota
 );
@@ -54,7 +55,6 @@ if (!mysqli_stmt_execute($stmt)) {
 mysqli_stmt_close($stmt);
 mysqli_close($conexao);
 
-// Volta para a página do produto
 header("Location: produtos.php?id=$idProduto");
 exit();
 ?>
