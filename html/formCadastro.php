@@ -56,50 +56,69 @@ if ($erro != 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro</title>
-
+    <link rel="stylesheet" href="../css/cadastro.css">
 </head>
 
 <body>
-    <form action="salvarUsuario.php?id=<?php echo $id; ?>" method="POST" enctype="multipart/form-data">
-        <h1>
-            <?php
-            if (isset($_GET['id'])) {
-                echo "Editar Perfil";
-            } else {
-                echo "Criar Nova Conta";
-            }
-            ?>
-        </h1>
+    <div class="cadastro-page">
+        <div class="cadastro-card">
+            <h1>
+                <?php
+                if (isset($_GET['id'])) {
+                    echo "Editar Perfil";
+                } else {
+                    echo "Criar Nova Conta";
+                }
+                ?>
+            </h1>
 
-        <p>Nome</p><input type="text" name="nome" value="<?php echo $nome; ?>">
-        <p>Data de nascimento</p><input type="date" name="data_nascimento" value="<?php echo $data_nascimento; ?>">
-        <p>E-mail</p><input type="email" name="email" value="<?php echo $email; ?>">
-        <p>CPF</p><input type="text" name="cpf" value="<?php echo $cpf; ?>">
-        <p>Username</p><input type="text" name="username" value="<?php echo $username; ?>">
-        <p>Senha <i class="bi bi-eye-slash" id="toggleSenha"></i></p>
-        <input type="password" name="senha" id="senha" value="<?= $senha ?>" required>
-        <p>Município</p><input type="text" name="municipio" value="<?php echo $municipio; ?>">
+            <form action="salvarUsuario.php?id=<?php echo $id; ?>" method="POST" enctype="multipart/form-data" class="cadastro-form">
 
-        <?php
-        if (isset($_GET['id'])) {
-            echo "<p>Foto de perfil</p>
-            <img src='../fotos/$foto'alt='Foto atual' class='img-thumbnail mb-2' width='120'>
-            <input type='file' name='foto'>";
-        } else {
-            echo "<input type='file' name='foto'>";
-        }
-        ?>
+                <label for="nome">Nome completo</label>
+                <input type="text" id="nome" name="nome" placeholder="Nome completo" value="<?php echo $nome; ?>">
 
-        <button type="submit" id="submit">Salvar alterações</button>
-        <?php if (isset($_GET['id'])) {
-            echo "<a href='./usuarioConta.php?id=$id'>Cancelar</a>";
-        } else {
-            echo "<a href='./index.php?id=$id'>Cancelar</a>";
-        }
-        ?>
-    </form>
+                <label for="data_nascimento">Data de nascimento</label>
+                <input type="date" id="data_nascimento" name="data_nascimento" value="<?php echo $data_nascimento; ?>">
+
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Email" value="<?php echo $email; ?>">
+
+                <label for="cpf">CPF</label>
+                <input type="text" id="cpf" name="cpf" placeholder="CPF" value="<?php echo $cpf; ?>">
+
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Username" value="<?php echo $username; ?>">
+
+                <label for="senha">Senha</label>
+                <div class="senha-wrapper">
+                    <input type="password" name="senha" id="senha" placeholder="Senha" value="<?= $senha ?>" required>
+                    <i class="bi bi-eye-slash" id="toggleSenha"></i>
+                </div>
+
+                <label for="municipio">Cidade / Estado</label>
+                <input type="text" id="municipio" name="municipio" placeholder="Município" value="<?php echo $municipio; ?>">
+
+                <?php
+                if (isset($_GET['id'])) {
+                    echo "<label>Foto de perfil</label>
+                    <img src='../fotos/$foto' alt='Foto atual' class='foto-atual' width='120'>
+                    <input type='file' name='foto'>";
+                } else {
+                    echo "<label>Foto de perfil</label>
+                    <input type='file' name='foto'>";
+                }
+                ?>
+
+                <button type="submit" id="submit" class="btn-cadastrar">Salvar alterações</button>
+                <?php if (isset($_GET['id'])) {
+                    echo "<a href='./usuarioConta.php?id=$id' class='cancelar-link'>Cancelar</a>";
+                } else {
+                    echo "<a href='./index.php?id=$id' class='cancelar-link'>Cancelar</a>";
+                }
+                ?>
+            </form>
+        </div>
     </div>
-
 
     <!-- olhinhoooooooooo da senha :D -->
     <script>

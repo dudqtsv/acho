@@ -6,6 +6,14 @@ $idProdutos = $_GET['id'] ?? null;
 
 $idUsuarioLogado = $_SESSION['id'] ?? null;
 
+if ($_GET['prodid'] ?? null) {
+    $idUsuario = $_GET['prodid'];
+
+    listarProdutosUsuario($conexao, $idUsuario);
+}
+
+else {
+
 // Busca o produto + dados do autor (dono do anúncio)
 $sql_produto = "
     SELECT produtos.*, usuarios.nomeUsuario, usuarios.usernameUsuario, usuarios.fotoUsuario
@@ -64,7 +72,7 @@ $totalAvaliacoes = mysqli_num_rows($avaliacoes);
         <span id='ponto'>•</span>
         <span class='data-produtosagem'><?php echo isset($produto['dataPublicacaoProduto']) ? date('d/m/Y H:i', strtotime($produto['dataPublicacaoProduto'])) : ''; ?></span>
       </div>
-      <a href="feed.php" class="voltar">
+      <a href="home.php" class="voltar">
         <svg viewBox="0 0 24 24" width="20" height="20">
           <path d="M5 5l14 14m0-14L5 19" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" />
         </svg>
@@ -81,7 +89,7 @@ $totalAvaliacoes = mysqli_num_rows($avaliacoes);
       </p>
       <p><?php echo nl2br(htmlspecialchars($produto['descricaoProduto'])); ?></p>
       <?php if (!empty($produto['fotoProduto'])) { ?>
-        <img src="../<?php echo htmlspecialchars($produto['fotoProduto']); ?>" alt="Imagem do produto" />
+        <img src="../fotos/<?php echo htmlspecialchars($produto['fotoProduto']); ?>" alt="Imagem do produto" />
       <?php } ?>
     </div>
 
@@ -89,7 +97,7 @@ $totalAvaliacoes = mysqli_num_rows($avaliacoes);
       <h3>Avaliações (<?php echo $totalAvaliacoes; ?>)</h3>
 
       <div class="comentario">
-        <form action="avaliar.php" method="POST" class="campo-comentario">
+        <form action="avaliacoes.php" method="POST" class="campo-comentario">
           <input type="hidden" name="idProduto" value="<?php echo htmlspecialchars($produto['idProduto']); ?>">
 
           <label for="nota">Nota</label>
@@ -120,7 +128,7 @@ $totalAvaliacoes = mysqli_num_rows($avaliacoes);
             : <?php echo htmlspecialchars($av['comentario']); ?>
           </p>
         </div>
-      <?php } ?>
+      <?php }} ?>
     </div>
 
   </div>

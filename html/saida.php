@@ -310,20 +310,11 @@ else {
 
     /*INSERT*/
 
-    $sql = "INSERT INTO usuarios (
-
-                nomeUsuario,
-                emailUsuario,
-                dataNascimentoUsuario,
-                cpfUsuario,
-                usernameUsuario,
-                senhaUsuario,
-                estado_codigoUf,
-                municipio_codigo
-
+    $sql = "INSERT INTO usuarios (nomeUsuario,emailUsuario,datanascimentoUsuario,senhausuario,estado_codigoUf,manicipio_codigo
+    
             )
 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            VALUES (?, ?, ?, ?, ?, ?)";
 
     $comando = mysqli_prepare(
         $conexao,
@@ -332,15 +323,7 @@ else {
 
     mysqli_stmt_bind_param(
         $comando,
-        "ssssssii",
-        $nome,
-        $email,
-        $nascimento,
-        $cpf,
-        $username,
-        $senha_hash,
-        $estado,
-        $municipio
+        "ssssssii",$nome,$email,$nascimento,$cpf,$username,$senha_hash,$estado,$municipio
     );
 
     mysqli_stmt_execute($comando);

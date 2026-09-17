@@ -3,8 +3,6 @@ require_once "conexao.php";
 require "funcoes.php";
 verificarLogin();
 
-$id = $_SESSION['id'];
-// Verifica se o usuário está logado
 if (!isset($_SESSION['id'])) {
     header("Location: login.php");
     exit();
@@ -12,58 +10,51 @@ if (!isset($_SESSION['id'])) {
 
 $idUsuario = $_SESSION['id'];
 
-// Dados enviados pelo formulário
-$idProduto = $_POST['idProduto'];
-$comentario = $_POST['comentario'];
-$nota = $_POST['nota'];
-$dataAvaliacao = $_POST['dataAvaliacao'];
+// Valida se os dados vieram do formulário
+if (!isset($_POST['idProduto'], $_POST['comentario'], $_POST['nota'])) {
+    die("Dados incompletos.");
+}
 
+$idProduto  = $_POST['idProduto'];
+$comentario = trim($_POST['comentario']);
+$nota       = $_POST['nota'];
+
+// Validações simples
+if (!is_numeric($idProduto) || !is_numeric($nota)) {
+    die("Dados inválidos.");
+}
+
+if ($nota < 1 || $nota > 5) {
+    die("A nota deve ser entre 1 e 5.");
+}
+
+if (empty($comentario)) {
+    die("O comentário não pode estar vazio.");
+}
+
+// NOW() preenche a data/hora automaticamente no banco
 $sql = "INSERT INTO avaliacoes (idUsuario, idProduto, comentario, nota, dataAvaliacao)
-        VALUES (?, ?, ?, ?, ?)";
+        VALUES (?, ?, ?, ?, NOW())";
 
 $stmt = mysqli_prepare($conexao, $sql);
 
+if (!$stmt) {
+    die("Erro ao preparar a query: " . mysqli_error($conexao));
+}
+
+// i = idUsuario, i = idProduto, s = comentario, i = nota
 mysqli_stmt_bind_param(
-    $stmt, "iisid", $idUsuario, $idProduto, $comentario, $nota, $dataAvaliacao);
+    $stmt, "iisi", $idUsuario, $idProduto, $comentario, $nota
+);
 
-mysqli_stmt_execute($stmt);
-
-// Volta para a página do produto
-header("Location: produto.php?id=$idProduto");
+if (!mysqli_stmt_execute($stmt)) {
+    die("Erro ao salvar avaliação: " . mysqli_stmt_error($stmt));
+}
 
 mysqli_stmt_close($stmt);
 mysqli_close($conexao);
+
+// Volta para a página do produto
+header("Location: produtos.php?id=$idProduto");
+exit();
 ?>
-
-
-
-
-//form q enviara as avaliacoes
-<form action="salvar_avaliacao.php" method="POST">
-
-    <input type="hidden" name="idProduto" value="<?php echo $idProduto['idProduto']; ?>">
-
-    <label>Nota:</label>
-    <select name="nota" required>
-        <option value="1">⭐</option>
-        <option value="2">⭐⭐</option>
-        <option value="3">⭐⭐⭐</option>
-        <option value="4">⭐⭐⭐⭐</option>
-        <option value="5">⭐⭐⭐⭐⭐</option>
-    </select>
-
-    <label>Comentário:</label>
-    <textarea name="comentario" required></textarea>
-
-    <button type="submit">
-        Avaliar
-    </button>
-
-</form>
-
-mudar no banco 
-
- impedir avaliações duplicadas
-
-ALTER TABLE avaliacoes 
-ADD UNIQUE (idUsuario, idProduto);
