@@ -22,15 +22,7 @@ if (isset($_GET['id'])) {
     $foto = $usuario['fotoUsuario'];
 } else {
     // echo "criar conta...";
-    $id = 0;
-    $nome = "";
-    $email = "";
-    $data_nascimento = "";
-    $cpf = "";
-    $username = "";
-    $senha = "";
-    $municipio = "";
-    $foto = "";
+     $id = 0; $nome = ""; $email = ""; $data_nascimento = ""; $cpf = ""; $username = ""; $senha = ""; $municipio = ""; $foto = "";
 }
 ?>
 <?php
@@ -56,7 +48,7 @@ if ($erro != 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro</title>
-    <link rel="stylesheet" href="../cadastro.css">
+    <link rel="stylesheet" href="../css/cadastro.css">
 </head>
 
 <body>

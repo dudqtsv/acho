@@ -589,7 +589,7 @@ $resultado = listarProdutos($conexao);
                         </p>
 
                         <a
-                            href="produtos.php?id=<?= (int)$produto['idProduto'] ?>"
+                            href="produto.php?id=<?= (int)$produto['idProduto'] ?>"
                             class="ver-produto"
                         >
                             Ver produto

@@ -47,14 +47,7 @@ if (isset($_POST['publicar'])) {
 
     $stmt = $conexao->prepare($sql);
     $stmt->bind_param(
-        "ssssdis",
-        $titulo,
-        $categoria,
-        $descricao,
-        $condicao,
-        $preco,
-        $idUsuario,
-        $foto
+        "ssssdis",$titulo,$categoria,$descricao,$condicao,$preco,$idUsuario,$foto
     );
 
     if ($stmt->execute()) {

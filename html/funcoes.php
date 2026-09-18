@@ -233,12 +233,14 @@ function inserirProduto($conexao, $nomeProduto, $descricaoProduto, $precoProduto
     return $stmt->execute();
 }
 
-function listarProdutosUsuario($conexao, $idUsuario){
+function listarProdutosUsuario($conexao, $idUsuario) {
     $sql = "SELECT * FROM produtos WHERE usuario_idUsuario = ?";
     $stmt = $conexao->prepare($sql);
     $stmt->bind_param("i", $idUsuario);
     $stmt->execute();
-    return $stmt->get_result();
+    $resultado = $stmt->get_result();
+
+    return $resultado->fetch_all(MYSQLI_ASSOC); // array com todos os produtos
 }
 
 function listarprodutos($conexao)
@@ -333,4 +335,12 @@ function deletarFavorito($conexao, $id)
     $stmt = $conexao->prepare($sql);
     $stmt->bind_param("i", $id);
     return $stmt->execute();
+}
+function jaFavoritou($conexao, $idProduto, $idUsuario) {
+    $sql = "SELECT * FROM favoritos WHERE idProduto = ? AND idUsuario = ?";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bind_param("ii", $idProduto, $idUsuario);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->num_rows > 0;
 }

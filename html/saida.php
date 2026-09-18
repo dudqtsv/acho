@@ -159,18 +159,7 @@ if ($id != 0) {
             PASSWORD_DEFAULT
         );
 
-        $sql = "UPDATE usuarios SET
-
-                    nomeUsuario = ?,
-                    emailUsuario = ?,
-                    dataNascimentoUsuario = ?,
-                    cpfUsuario = ?,
-                    usernameUsuario = ?,
-                    senhaUsuario = ?,
-                    estado_codigoUf = ?,
-                    municipio_codigo = ?
-
-                WHERE idUsuario = ?";
+        $sql = "UPDATE usuarios SET nomeUsuario = ?,emailUsuario = ?,dataNascimentoUsuario = ?,cpfUsuario = ?,usernameUsuario = ?,senhaUsuario = ?,estado_codigoUf = ?,municipio_codigo = ?WHERE idUsuario = ?";
 
         $comando = mysqli_prepare(
             $conexao,
@@ -179,33 +168,14 @@ if ($id != 0) {
 
         mysqli_stmt_bind_param(
             $comando,
-            "ssssssiii",
-            $nome,
-            $email,
-            $nascimento,
-            $cpf,
-            $username,
-            $senha,
-            $estado,
-            $municipio,
-            $id
+            "ssssssiii",$nome,$email,$nascimento,$cpf,$username,$senha,$estado,$municipio,$id
         );
 
     } else {
 
         /*UPDATE SEM SENHA*/
 
-        $sql = "UPDATE usuarios SET
-
-                    nomeUsuario = ?,
-                    emailUsuario = ?,
-                    dataNascimentoUsuario = ?,
-                    cpfUsuario = ?,
-                    usernameUsuario = ?,
-                    estado_codigoUf = ?,
-                    municipio_codigo = ?
-
-                WHERE idUsuario = ?";
+        $sql = "UPDATE usuarios SET nomeUsuario = ? emailUsuario = ?,dataNascimentoUsuario = ?,cpfUsuario = ?,usernameUsuario = ?,estado_codigoUf = ?,municipio_codigo = ?WHERE idUsuario = ?";
 
         $comando = mysqli_prepare(
             $conexao,
@@ -214,15 +184,7 @@ if ($id != 0) {
 
         mysqli_stmt_bind_param(
             $comando,
-            "sssssiii",
-            $nome,
-            $email,
-            $nascimento,
-            $cpf,
-            $username,
-            $estado,
-            $municipio,
-            $id
+            "sssssiii",$nome,$email,$nascimento,$cpf,$username,$estado,$municipio,$id
         );
     }
 

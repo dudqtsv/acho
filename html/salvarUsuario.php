@@ -77,4 +77,4 @@ if ($id == 0) {
     mysqli_stmt_execute($comando);
     mysqli_stmt_close($comando);
     header("Location: ./home.php?id=$id");
-}
+}                                                                                                                                                                                             

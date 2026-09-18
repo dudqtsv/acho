@@ -113,14 +113,24 @@ $satisfacao = $resultado['total'] > 0 ? round(($resultado['boas'] / $resultado['
 
     .card-perfil .botoes a {
         text-decoration: none;
-        color: #00000023;
+        color: #ffffff;
         padding: 12px 20px;
-        border-radius: 8px;
-        border: 1px solid var(--cinza-borda);
-        background: #fff;
+        border-radius: 999px;
+        border: none;
+        background: var(--azul-escuro);
         font-weight: 600;
         cursor: pointer;
         margin-left: 10px;
+        transition: background 0.15s ease, transform 0.1s ease;
+        display: inline-block;
+    }
+
+    .card-perfil .botoes a:hover {
+        background: #12154a;
+    }
+
+    .card-perfil .botoes a:active {
+        transform: scale(0.98);
     }
 
     .conteudo {
@@ -217,7 +227,7 @@ $satisfacao = $resultado['total'] > 0 ? round(($resultado['boas'] / $resultado['
                 </svg>
                 Dados pessoais
             </a>
-            <a href="produtos.php?prodid=<?= $idUsuario ?>">
+            <a href="produtos.php">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M6 8h12l-1 12H7L6 8z"/>
                     <path d="M9 8V6a3 3 0 0 1 6 0v2"/>
