@@ -545,7 +545,7 @@ $resultado = listarProdutos($conexao);
                         <?php if (!empty($produto['fotoProduto'])): ?>
 
                             <img
-                                src="<?= htmlspecialchars($produto['fotoProduto']) ?>"
+                                src="fotos/<?= htmlspecialchars($produto['fotoProduto']) ?>"
                                 alt="Foto de <?= htmlspecialchars($produto['nomeProduto']) ?>"
                             >
 

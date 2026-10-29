@@ -67,7 +67,7 @@ Se você quer que a imagem troque na hora, sem esperar a página recarregar, tir
 <button type="button" onclick="favoritar(this, <?php echo (int)$produto['idProduto']; ?>)" 
         style="background:none; border:none; cursor:pointer; padding:0;">
   <img 
-    src="<?php echo $jaFavoritou ? '../fotos/favoritou.jpeg' : '../fotos/favoritar.png'; ?>" 
+    src="<?php echo $jaFavoritou ? 'fotos/favoritou.jpeg' : 'fotos/favoritar.png'; ?>" 
     alt="Favoritar" 
     style="width:28px; height:28px;"
     id="img-favorito">
@@ -81,9 +81,9 @@ function favoritar(botao, idProduto) {
         .then(estado => {
             // favoritar.php precisa devolver "1" (favoritou) ou "0" (desfavoritou)
             if (estado.trim() === "1") {
-                img.src = "../fotos/favoritou.jpeg";
+                img.src = "fotos/favoritou.jpeg";
             } else {
-                img.src = "../fotos/favoritar.png";
+                img.src = "fotos/favoritar.png";
             }
         });
 }

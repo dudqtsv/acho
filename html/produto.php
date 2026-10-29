@@ -339,7 +339,7 @@ $totalAvaliacoes = mysqli_num_rows($avaliacoes);
 
     <div class="produtos_autor">
       <div class='autor'>
-        <img src='../fotos/<?php echo htmlspecialchars($produto['fotoUsuario'] ?? 'default.png'); ?>' class='foto_perfil'>
+        <img src='fotos/<?php echo htmlspecialchars($produto['fotoUsuario'] ?? 'default.png'); ?>' class='foto_perfil'>
         <span class='n_autor'><?php echo htmlspecialchars($produto['usernameUsuario']); ?></span>
         <span id='ponto'>•</span>
         <span class='data-produtosagem'><?php echo isset($produto['dataPublicacaoProduto']) ? date('d/m/Y H:i', strtotime($produto['dataPublicacaoProduto'])) : ''; ?></span>
@@ -361,7 +361,7 @@ $totalAvaliacoes = mysqli_num_rows($avaliacoes);
       </p>
       <p><?php echo nl2br(htmlspecialchars($produto['descricaoProduto'])); ?></p>
       <?php if (!empty($produto['fotoProduto'])) { ?>
-        <img src="../fotos/<?php echo htmlspecialchars($produto['fotoProduto']); ?>" alt="Imagem do produto" />
+        <img src="fotos/<?php echo htmlspecialchars($produto['fotoProduto']); ?>" alt="Imagem do produto" />
       <?php } ?>
     </div>
 
@@ -394,7 +394,7 @@ $totalAvaliacoes = mysqli_num_rows($avaliacoes);
       <?php while ($av = mysqli_fetch_assoc($avaliacoes)) { ?>
         <div class="comentario">
           <p>
-            <img src='../fotos/<?php echo htmlspecialchars($av['fotoUsuario'] ?? 'default.png'); ?>' class='foto_coment'>
+            <img src='fotos/<?php echo htmlspecialchars($av['fotoUsuario'] ?? 'default.png'); ?>' class='foto_coment'>
             <strong><?php echo htmlspecialchars($av['usernameUsuario']); ?></strong>
             <span class="nota-avaliacao">(Nota: <?php echo htmlspecialchars($av['nota']); ?>/5)</span>
             : <?php echo htmlspecialchars($av['comentario']); ?>

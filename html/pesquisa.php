@@ -29,7 +29,7 @@ while ($produto = mysqli_fetch_assoc($resultado)) {
     echo "<h2>" . $produto['nomeProduto'] . "</h2>";
 
     if (!empty($produto['fotoProduto'])) {
-        echo "<img src='imagens/" . $produto['fotoProduto'] . "' width='200'><br>";
+        echo "<img src='fotos/" . $produto['fotoProduto'] . "' width='200'><br>";
     }
 
     echo "<p>" . $produto['descricaoProduto'] . "</p>";

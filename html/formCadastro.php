@@ -133,7 +133,7 @@ if ($erro != 0) {
                 <?php
                 if (isset($_GET['id'])) {
                     echo "<label>Foto de perfil</label>
-                    <img src='../fotos/$foto' alt='Foto atual' class='foto-atual' width='120'>
+                    <img src='fotos/$foto' alt='Foto atual' class='foto-atual' width='120'>
                     <input type='file' name='foto'>";
                 } else {
                     echo "<label>Foto de perfil</label>
