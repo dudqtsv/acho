@@ -2,6 +2,8 @@
 
 require 'funcoes.php';
 verificarLogin();
+$id = $_SESSION['id'];
+
 $idUsuario = $_SESSION['idUsuario'];
 $erro = "";
 $sucesso = "";
@@ -14,25 +16,30 @@ if (isset($_POST['publicar'])) {
     $condicao = $_POST['condicao'];
     $preco = str_replace(",", ".", $_POST['preco']);
 
-    $novo_nome = "generico.png";
-    $permitidas = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+    $foto = null;
 
-    if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
-        $extensao = strtolower(pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION));
+    if (isset($_FILES['fotos']) && $_FILES['fotos']['name'][0] != "") {
 
-        if (!in_array($extensao, $permitidas)) {
-            $erro = "Formato de imagem não permitido.";
-        } else {
-            $pasta = __DIR__ . "/fotos/";
-            $nome_gerado = uniqid() . "." . $extensao;
+        // Caminho absoluto evita problemas de resolução relativa dependendo de onde o script roda
+        $pasta = $_SERVER['DOCUMENT_ROOT'] . '/fotos/';
 
-            if (move_uploaded_file($_FILES['foto']['tmp_name'], $pasta . $nome_gerado)) {
-                $novo_nome = $nome_gerado;
-            } else {
-                $erro = "Falha ao salvar a imagem.";
-            }
+        if (!file_exists($pasta)) {
+            mkdir($pasta, 0777, true);
+        }
+
+        $nomeArquivo = time() . "_" . basename($_FILES['fotos']['name'][0]);
+        $destino = $pasta . $nomeArquivo;
+
+        if (move_uploaded_file($_FILES['fotos']['tmp_name'][0], $destino)) {
+            $foto = $nomeArquivo;
         }
     }
+
+    // Tabela produtos precisa ter as colunas categoriaProduto e condicaoProduto.
+    // Caso ainda não existam, rode antes:
+    // ALTER TABLE produtos
+    //   ADD COLUMN categoriaProduto VARCHAR(100) NULL AFTER nomeProduto,
+    //   ADD COLUMN condicaoProduto VARCHAR(50) NULL AFTER descricaoProduto;
 
     $sql = "INSERT INTO produtos
             (nomeProduto, categoriaProduto, descricaoProduto, condicaoProduto, precoProduto, usuario_idUsuario, fotoProduto)
@@ -40,12 +47,12 @@ if (isset($_POST['publicar'])) {
 
     $stmt = $conexao->prepare($sql);
     $stmt->bind_param(
-        "ssssdis",$titulo,$categoria,$descricao,$condicao,$preco,$idUsuario,$novo_nome
+        "ssssdis",$titulo,$categoria,$descricao,$condicao,$preco,$idUsuario,$foto
     );
 
-    if ($erro === "" && $stmt->execute()) {
+    if ($stmt->execute()) {
         $sucesso = "Anúncio publicado com sucesso!";
-    } elseif ($erro === "") {
+    } else {
         $erro = "Erro ao publicar: " . $conexao->error;
     }
 }
@@ -293,7 +300,7 @@ if (isset($_POST['publicar'])) {
                 <div class="fotos-box">
                     <span class="mais">+</span>
                     <span>Enviar fotos do produto</span>
-                    <input type="file" name="foto" accept="image/*">
+                    <input type="file" name="fotos[]" accept="image/*">
                 </div>
             </div>
         </div>

@@ -24,12 +24,12 @@ $id = $_GET['id'];
 if ($id == 0) {
     // criar conta
     if (empty($nome_arquivo)) {
-        $novo_nome = "generico.png";
+        $novo_nome = "../fotos/generico.png";
     } else {
         $caminho_temporario = $_FILES['foto']['tmp_name'];
         $extensao = pathinfo($nome_arquivo, PATHINFO_EXTENSION);
         $novo_nome = uniqid() . "." . $extensao;
-        $caminho_destino = __DIR__ . "/fotos/" . $novo_nome;
+        $caminho_destino = __DIR__ . "/fotos/" . $novo_nome;        
         move_uploaded_file($caminho_temporario, $caminho_destino);
     }
 

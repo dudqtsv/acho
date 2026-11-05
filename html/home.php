@@ -482,10 +482,6 @@ $resultado = listarProdutos($conexao);
             Avaliações
         </a>
 
-        <a href="produtos.php">
-            Produtos
-        </a>
-
         <a href="logout.php" class="sair">
             Sair
         </a>

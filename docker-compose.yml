@@ -2,20 +2,16 @@ version: '3.8'
 
 services:
   db:
-    image: mysql:8.0 # Garantindo que é MySQL e não MariaDB
+    image: mysql:8.0
     container_name: mysql_lab
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 123
       MYSQL_DATABASE: banco
-      # MYSQL_USER: aluno
-      # MYSQL_PASSWORD: 123
     ports:
       - "3307:3306"
     volumes:
-      # O volume nomeado gerencia os dados do banco sem problemas de permissão
       - db_data:/var/lib/mysql
-      # Mapeia a pasta local 'banco' para inicialização automática
       - ./banco:/docker-entrypoint-initdb.d
 
   web:
@@ -27,13 +23,10 @@ services:
     ports:
       - "81:80"
     volumes:
-      # Mapeia a pasta local 'html' onde os alunos colocarão o código PHP
       - ./html:/var/www/html
-      # pasta das fotos (upload e exibição) fica dentro do site
       - ./fotos:/var/www/html/fotos
     depends_on:
       - db
 
 volumes:
-  # Declaração do volume nomeado para os dados do MySQL
   db_data:

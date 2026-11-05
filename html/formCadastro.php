@@ -3,220 +3,381 @@ session_start();
 require_once "./conexao.php";
 
 if (isset($_GET['id'])) {
+    $id = (int) $_GET['id'];
 
-    // editar...
-    $id = $_GET['id'];
     $sql = "SELECT * FROM usuarios WHERE idUsuario = ?";
     $comando = mysqli_prepare($conexao, $sql);
     mysqli_stmt_bind_param($comando, 'i', $id);
     mysqli_stmt_execute($comando);
+
     $resultados = mysqli_stmt_get_result($comando);
     $usuario = mysqli_fetch_assoc($resultados);
-    $nome = $usuario['nomeUsuario'];
-    $email = $usuario['emailUsuario'];
-    $data_nascimento = $usuario['dataNascimentoUsuario'];
-    $cpf = $usuario['cpfUsuario'];
-    $username = $usuario['usernameUsuario'];
-    $senha = $usuario['senhaUsuario'];
-    $municipio = $usuario['municipio_codigo'];
-    $foto = $usuario['fotoUsuario'];
-} else {
-    // criar conta...
-    $id = 0; $nome = ""; $email = ""; $data_nascimento = ""; $cpf = ""; $username = ""; $senha = ""; $municipio = ""; $foto = "";
+
+    if (!$usuario) {
+        die("Usuário não encontrado.");
+    } $nome = $usuario['nomeUsuario'];$email = $usuario['emailUsuario'];$data_nascimento = $usuario['dataNascimentoUsuario'];$cpf = $usuario['cpfUsuario'];$username = $usuario['usernameUsuario'];$senha = "";$municipio = $usuario['municipio_codigo'];$foto = $usuario['fotoUsuario'];
+
+} else {$id = 0;$nome = "";$email = "";$data_nascimento = "";$cpf = "";$username = "";$senha = "";$municipio = ""; $foto = "";
 }
 
-// lista de estados para o select (GROUP BY evita estados repetidos na tabela)
-$resultadoEstados = mysqli_query($conexao, "SELECT uf, MIN(nome) AS nome FROM estados GROUP BY uf ORDER BY nome");
-
-// descobre a UF da cidade atual (para a edição de perfil)
-$uf_atual = "";
-if ($municipio != "") {
-    $sqlEstado = "SELECT uf FROM municipios WHERE codigo = ?";
-    $cmdEstado = mysqli_prepare($conexao, $sqlEstado);
-    mysqli_stmt_bind_param($cmdEstado, 'i', $municipio);
-    mysqli_stmt_execute($cmdEstado);
-    $resEstado = mysqli_stmt_get_result($cmdEstado);
-    if ($linhaEstado = mysqli_fetch_assoc($resEstado)) {
-        $uf_atual = $linhaEstado['uf'];
-    }
-}
-?>
-<?php
-if (isset($_GET['erro'])) {
-    $erro = $_GET['erro'];
-} else {
-    $erro = 0;
-}
-if ($erro != 0) {
-    echo "<p class='erro-msg'>Não deixe nenhum campo vazio!</p>";
-}
+$erro = isset($_GET['erro']) ? (int) $_GET['erro'] : 0;
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Cadastro</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
     <link rel="stylesheet" href="../css/cadastro.css">
+
     <style>
-        /* select igual aos inputs do formulário */
-        .cadastro-form select {
-            width: 100%;
+        .regras-senha {
+            list-style: none;
+            padding-left: 0;
+            margin: 8px 0 18px;
+            font-size: 14px;
         }
 
-        .estado-info {
-            display: block;
-            margin-top: 4px;
-            color: #666;
+        .regras-senha li {
+            margin: 4px 0;
+        }
+
+        .regras-senha .invalido {
+            color: #dc3545;
+        }
+
+        .regras-senha .valido {
+            color: #198754;
+        }
+
+        .senha-wrapper {
+            position: relative;
+        }
+
+        #toggleSenha {
+            cursor: pointer;
+        }
+
+        .btn-cadastrar:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .erro-validacao {
+            color: #dc3545;
+            font-size: 13px;
         }
     </style>
 </head>
 
 <body>
+
     <div class="cadastro-page">
         <div class="cadastro-card">
+
             <h1>
                 <?php
-                if (isset($_GET['id'])) {
-                    echo "Editar Perfil";
-                } else {
-                    echo "Criar Nova Conta";
-                }
+                echo isset($_GET['id'])
+                    ? "Editar Perfil"
+                    : "Criar Nova Conta";
                 ?>
             </h1>
 
-            <form action="salvarUsuario.php?id=<?php echo $id; ?>" method="POST" enctype="multipart/form-data" class="cadastro-form">
+            <?php
+            if ($erro != 0) {
+                echo "<p class='erro-msg'>Não deixe nenhum campo vazio!</p>";
+            }
+            ?>
+
+            <form
+                action="salvarUsuario.php?id=<?php echo $id; ?>"
+                method="POST"
+                enctype="multipart/form-data"
+                class="cadastro-form">
 
                 <label for="nome">Nome completo</label>
-                <input type="text" id="nome" name="nome" placeholder="Nome completo" value="<?= htmlspecialchars($nome) ?>">
+                <input type="text" id="nome" name="nome" placeholder="Nome completo"
+                    value="<?php echo htmlspecialchars($nome, ENT_QUOTES, 'UTF-8'); ?>"
+                    required>
 
                 <label for="data_nascimento">Data de nascimento</label>
-                <input type="date" id="data_nascimento" name="data_nascimento" value="<?= htmlspecialchars($data_nascimento) ?>">
+                <input
+                    type="date" id="data_nascimento" name="data_nascimento"
+                    value="<?php echo htmlspecialchars($data_nascimento, ENT_QUOTES, 'UTF-8'); ?>"
+                    required>
 
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="Email" value="<?= htmlspecialchars($email) ?>">
+                <input type="email" id="email" name="email" placeholder="Email"
+                    value="<?php echo htmlspecialchars($email, ENT_QUOTES, 'UTF-8'); ?>"
+                    required>
+                <p id="erro-email" class="erro-validacao" hidden>
+                    Digite um e-mail válido.
+                </p>
 
                 <label for="cpf">CPF</label>
-                <input type="text" id="cpf" name="cpf" placeholder="CPF" value="<?= htmlspecialchars($cpf) ?>">
+                <input type="text" id="cpf" name="cpf"
+                    placeholder="000.000.000-00"
+                    maxlength="14"
+                    value="<?php echo htmlspecialchars($cpf, ENT_QUOTES, 'UTF-8'); ?>"
+                    required>
+                <p id="erro-cpf" class="erro-validacao" hidden>
+                    Digite um CPF válido.
+                </p>
 
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="Username" value="<?= htmlspecialchars($username) ?>">
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Username"
+                    value="<?php echo htmlspecialchars($username, ENT_QUOTES, 'UTF-8'); ?>"
+                    required>
 
                 <label for="senha">Senha</label>
                 <div class="senha-wrapper">
-                    <input type="password" name="senha" id="senha" placeholder="Senha" value="<?= htmlspecialchars($senha) ?>" required>
+                    <input
+                        type="password"
+                        name="senha"
+                        id="senha"
+                        placeholder="Senha"
+                        autocomplete="new-password"
+                        required>
                     <i class="bi bi-eye-slash" id="toggleSenha"></i>
                 </div>
 
-                <label for="estado">Estado</label>
-                <select id="estado">
-                    <option value="">Selecione o estado</option>
-                    <?php while ($e = mysqli_fetch_assoc($resultadoEstados)) { ?>
-                        <option value="<?= $e['uf'] ?>" <?= $e['uf'] == $uf_atual ? 'selected' : '' ?>>
-                            <?= $e['nome'] ?> (<?= $e['uf'] ?>)
-                        </option>
-                    <?php } ?>
-                </select>
+                <ul class="regras-senha" aria-live="polite">
+                    <li id="regra-quantidade" class="invalido">✗ No mínimo 8 caracteres</li>
+                    <li id="regra-numero" class="invalido">✗ Pelo menos um número</li>
+                    <li id="regra-maiuscula" class="invalido">✗ Pelo menos uma letra maiúscula</li>
+                    <li id="regra-minuscula" class="invalido">✗ Pelo menos uma letra minúscula</li>
+                </ul>
 
-                <label for="municipio">Cidade</label>
-                <select id="municipio" name="municipio" required>
-                    <option value="">Selecione primeiro o estado</option>
-                </select>
-                <small id="estadoSelecionado" class="estado-info"></small>
+                <label for="municipio">Cidade / Estado</label>
+                <input
+                    type="text"
+                    id="municipio"
+                    name="municipio"
+                    placeholder="Município"
+                    value="<?php echo htmlspecialchars($municipio, ENT_QUOTES, 'UTF-8'); ?>"
+                    required>
 
-                <?php
-                if (isset($_GET['id'])) {
-                    echo "<label>Foto de perfil</label>
-                    <img src='fotos/$foto' alt='Foto atual' class='foto-atual' width='120'>
-                    <input type='file' name='foto'>";
-                } else {
-                    echo "<label>Foto de perfil</label>
-                    <input type='file' name='foto'>";
-                }
-                ?>
+                <label for="foto">Foto de perfil</label>
 
-                <button type="submit" id="submit" class="btn-cadastrar">Salvar alterações</button>
-                <?php if (isset($_GET['id'])) {
-                    echo "<a href='./usuarioConta.php?id=$id' class='cancelar-link'>Cancelar</a>";
-                } else {
-                    echo "<a href='./index.php?id=$id' class='cancelar-link'>Cancelar</a>";
-                }
-                ?>
+                <?php if (isset($_GET['id']) && !empty($foto)): ?>
+                    <img
+                        src="../fotos/<?php echo rawurlencode(basename($foto)); ?>"
+                        alt="Foto atual"
+                        class="foto-atual"
+                        width="120">
+                <?php endif; ?>
+
+                <input type="file" id="foto" name="foto" accept="image/*">
+
+                <button
+                    type="submit"
+                    id="submit"
+                    class="btn-cadastrar"
+                    disabled>
+                    Salvar alterações
+                </button>
+
+                <?php if (isset($_GET['id'])): ?>
+                    <a href="./usuarioConta.php?id=<?php echo $id; ?>" class="cancelar-link">
+                        Cancelar
+                    </a>
+                <?php else: ?>
+                    <a href="./index.php" class="cancelar-link">
+                        Cancelar
+                    </a>
+                <?php endif; ?>
+
             </form>
         </div>
     </div>
 
-    <!-- olhinhoooooooooo da senha :D -->
     <script>
         const senhaInput = document.getElementById("senha");
+        const emailInput = document.getElementById("email");
+        const cpfInput = document.getElementById("cpf");
         const toggleSenha = document.getElementById("toggleSenha");
+        const formulario = document.querySelector(".cadastro-form");
+        const botao = document.getElementById("submit");
 
-        toggleSenha.addEventListener("click", () => {
-            const isPassword = senhaInput.type === "password";
-            senhaInput.type = isPassword ? "text" : "password";
-            toggleSenha.classList.toggle("bi-eye");
-            toggleSenha.classList.toggle("bi-eye-slash");
-        });
-    </script>
+        const erroCPF = document.getElementById("erro-cpf");
+        const erroEmail = document.getElementById("erro-email");
 
-    <!-- estado e cidade -->
-    <script>
-        const estadoSelect = document.getElementById("estado");
-        const cidadeSelect = document.getElementById("municipio");
-        const estadoInfo = document.getElementById("estadoSelecionado");
-        const cidadeAtual = "<?= $municipio ?>";
+        const regras = {
+            quantidade: document.getElementById("regra-quantidade"),
+            numero: document.getElementById("regra-numero"),
+            maiuscula: document.getElementById("regra-maiuscula"),
+            minuscula: document.getElementById("regra-minuscula")
+        };
 
-        function mostrarEstado() {
-            const opcao = estadoSelect.options[estadoSelect.selectedIndex];
-            estadoInfo.textContent = estadoSelect.value ? "Estado: " + opcao.text.trim() : "";
+        // Valida as regras da senha
+        function validar(regra, atende) {
+            regra.classList.toggle("valido", atende);
+            regra.classList.toggle("invalido", !atende);
+
+            const texto = regra.textContent.replace(/^[✓✗]\s*/, "");
+            regra.textContent = (atende ? "✓ " : "✗ ") + texto;
         }
 
-        async function carregarCidades(estadoId, selecionada = "") {
-            if (!estadoId) {
-                cidadeSelect.innerHTML = '<option value="">Selecione primeiro o estado</option>';
-                return;
+        function validarSenha() {
+            const valor = senhaInput.value;
+
+            const resultados = {
+                quantidade: valor.length >= 8,
+                numero: /[0-9]/.test(valor),
+                maiuscula: /[A-Z]/.test(valor),
+                minuscula: /[a-z]/.test(valor)
+            };
+
+            Object.keys(resultados).forEach(chave => {
+                validar(regras[chave], resultados[chave]);
+            });
+
+            return Object.values(resultados).every(Boolean);
+        }
+
+        // Valida o CPF
+        function validarCPF(cpf) {
+            cpf = cpf.replace(/\D/g, "");
+
+            if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {
+                return false;
             }
 
-            cidadeSelect.innerHTML = '<option value="">Carregando...</option>';
+            let soma = 0;
 
-            try {
-                const resposta = await fetch("buscarMunicipios.php?uf=" + encodeURIComponent(estadoId));
-                const cidades = await resposta.json();
+            for (let i = 0; i < 9; i++) {
+                soma += Number(cpf[i]) * (10 - i);
+            }
 
-                if (cidades.length === 0) {
-                    cidadeSelect.innerHTML = '<option value="">Nenhuma cidade cadastrada para este estado</option>';
-                    return;
+            let resto = (soma * 10) % 11;
+            let digito1 = resto === 10 ? 0 : resto;
+
+            if (digito1 !== Number(cpf[9])) {
+                return false;
+            }
+
+            soma = 0;
+
+            for (let i = 0; i < 10; i++) {
+                soma += Number(cpf[i]) * (11 - i);
+            }
+
+            resto = (soma * 10) % 11;
+            let digito2 = resto === 10 ? 0 : resto;
+
+            return digito2 === Number(cpf[10]);
+        }
+
+        // Formata o CPF enquanto digita
+        cpfInput.addEventListener("input", () => {
+            let valor = cpfInput.value.replace(/\D/g, "").slice(0, 11);
+
+            if (valor.length > 9) {
+                valor = valor.replace(
+                    /^(\d{3})(\d{3})(\d{3})(\d{1,2})$/,
+                    "$1.$2.$3-$4"
+                );
+            } else if (valor.length > 6) {
+                valor = valor.replace(
+                    /^(\d{3})(\d{3})(\d{1,3})$/,
+                    "$1.$2.$3"
+                );
+            } else if (valor.length > 3) {
+                valor = valor.replace(
+                    /^(\d{3})(\d{1,3})$/,
+                    "$1.$2"
+                );
+            }
+
+            cpfInput.value = valor;
+            atualizarBotao();
+        });
+
+        // Verifica o formato do e-mail
+        function validarEmail() {
+            const valido =
+                emailInput.value.trim() !== "" &&
+                emailInput.validity.valid;
+
+            erroEmail.hidden =
+                valido || emailInput.value.trim() === "";
+
+            return valido;
+        }
+
+        // Verifica os campos e libera ou bloqueia o botão
+        function atualizarBotao() {
+            const campos = formulario.querySelectorAll(
+                "input[required], select[required], textarea[required]"
+            );
+
+            let preenchidos = true;
+
+            campos.forEach(campo => {
+                if (
+                    campo.value.trim() === "" ||
+                    !campo.validity.valid
+                ) {
+                    preenchidos = false;
                 }
+            });
 
-                cidadeSelect.innerHTML = '<option value="">Selecione a cidade</option>';
-                cidades.forEach(c => {
-                    const opt = document.createElement("option");
-                    opt.value = c.codigo;
-                    opt.textContent = c.nome;
-                    if (String(c.codigo) === String(selecionada)) opt.selected = true;
-                    cidadeSelect.appendChild(opt);
-                });
-            } catch (erro) {
-                cidadeSelect.innerHTML = '<option value="">Erro ao carregar cidades</option>';
-            }
+            const cpfValido = validarCPF(cpfInput.value);
+            const emailValido = validarEmail();
+            const senhaValida = validarSenha();
+
+            erroCPF.hidden = cpfInput.value.trim() === "" || cpfValido;
+
+            botao.disabled = !(
+                preenchidos &&
+                cpfValido &&
+                emailValido &&
+                senhaValida
+            );
         }
 
-        estadoSelect.addEventListener("change", () => {
-            mostrarEstado();
-            carregarCidades(estadoSelect.value);
+        // Mostra ou esconde a senha
+        toggleSenha.addEventListener("click", () => {
+            const mostrar = senhaInput.type === "password";
+
+            senhaInput.type = mostrar ? "text" : "password";
+
+            toggleSenha.classList.toggle("bi-eye", mostrar);
+            toggleSenha.classList.toggle("bi-eye-slash", !mostrar);
         });
 
-        // ao abrir a página (principalmente na edição de perfil)
-        if (estadoSelect.value) {
-            mostrarEstado();
-            carregarCidades(estadoSelect.value, cidadeAtual);
-        }
+        // Atualiza as validações quando os campos mudam
+        formulario.querySelectorAll("input, select, textarea").forEach(campo => {
+            campo.addEventListener("input", atualizarBotao);
+            campo.addEventListener("change", atualizarBotao);
+        });
+
+        // Confere novamente antes do envio
+        formulario.addEventListener("submit", evento => {
+            atualizarBotao();
+
+            if (botao.disabled) {
+                evento.preventDefault();
+                alert("Preencha todos os campos corretamente!");
+            }
+        });
+
+        // Verificação inicial
+        atualizarBotao();
     </script>
 
 </body>
