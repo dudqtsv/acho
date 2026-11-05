@@ -21,6 +21,23 @@ if (isset($_GET['id'])) {
 }
 
 $erro = isset($_GET['erro']) ? (int) $_GET['erro'] : 0;
+
+// Lista de estados para o select
+$estados = $conexao->query("SELECT uf, nome FROM estados ORDER BY nome")->fetch_all(MYSQLI_ASSOC);
+
+// Na edição, descobre o estado e o nome do município já salvos
+$ufAtual = "";
+$municipioNome = "";
+if (!empty($municipio)) {
+    $stmtMun = $conexao->prepare("SELECT nome, uf FROM municipios WHERE codigo = ?");
+    $stmtMun->bind_param("i", $municipio);
+    $stmtMun->execute();
+    $munAtual = $stmtMun->get_result()->fetch_assoc();
+    if ($munAtual) {
+        $municipioNome = $munAtual['nome'];
+        $ufAtual = $munAtual['uf'];
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -76,6 +93,30 @@ $erro = isset($_GET['erro']) ? (int) $_GET['erro'] : 0;
         .erro-validacao {
             color: #dc3545;
             font-size: 13px;
+        }
+
+        /* Select de estado e campo de município no mesmo visual dos outros campos */
+        .cadastro-form select {
+            width: 100%;
+            border: none;
+            outline: none;
+            background: var(--cinza-input);
+            border-radius: 14px;
+            padding: 13px 18px;
+            font-size: 0.92rem;
+            color: var(--texto-label);
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .cadastro-form select:focus {
+            background: var(--cinza-input-hover);
+            box-shadow: 0 0 0 3px rgba(26, 31, 107, 0.15);
+        }
+
+        .cadastro-form input:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
     </style>
 </head>
@@ -162,14 +203,30 @@ $erro = isset($_GET['erro']) ? (int) $_GET['erro'] : 0;
                     <li id="regra-minuscula" class="invalido">✗ Pelo menos uma letra minúscula</li>
                 </ul>
 
-                <label for="municipio">Cidade / Estado</label>
+                <label for="estado">Estado</label>
+                <select id="estado" required>
+                    <option value="">Selecione o estado</option>
+                    <?php foreach ($estados as $e): ?>
+                        <option value="<?php echo htmlspecialchars($e['uf']); ?>"
+                            <?php echo $e['uf'] === $ufAtual ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($e['nome']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+
+                <label for="municipio_busca">Município</label>
                 <input
                     type="text"
-                    id="municipio"
-                    name="municipio"
-                    placeholder="Município"
-                    value="<?php echo htmlspecialchars($municipio, ENT_QUOTES, 'UTF-8'); ?>"
+                    id="municipio_busca"
+                    list="lista-municipios"
+                    placeholder="Selecione o estado primeiro"
+                    autocomplete="off"
+                    value="<?php echo htmlspecialchars($municipioNome, ENT_QUOTES, 'UTF-8'); ?>"
+                    <?php echo $ufAtual === '' ? 'disabled' : ''; ?>
                     required>
+                <datalist id="lista-municipios"></datalist>
+                <input type="hidden" id="municipio" name="municipio"
+                    value="<?php echo htmlspecialchars($municipio, ENT_QUOTES, 'UTF-8'); ?>">
 
                 <label for="foto">Foto de perfil</label>
 
@@ -375,6 +432,89 @@ $erro = isset($_GET['erro']) ? (int) $_GET['erro'] : 0;
                 alert("Preencha todos os campos corretamente!");
             }
         });
+
+        // ---------- Estado / Município ----------
+        const estadoSelect = document.getElementById("estado");
+        const municipioBusca = document.getElementById("municipio_busca");
+        const municipioCodigo = document.getElementById("municipio");
+        const listaMunicipios = document.getElementById("lista-municipios");
+
+        let municipiosDoEstado = [];
+
+        // Ignora acentos e maiúsculas ao comparar nomes
+        function normalizar(texto) {
+            return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+        }
+
+        // Confere se o texto digitado é um município da lista do estado
+        function validarMunicipio() {
+            const digitado = normalizar(municipioBusca.value);
+            const achado = municipiosDoEstado.find(m => normalizar(m.nome) === digitado);
+
+            if (achado) {
+                municipioCodigo.value = achado.codigo;
+                municipioBusca.value = achado.nome; // acerta acentos e maiúsculas
+                municipioBusca.setCustomValidity("");
+            } else {
+                municipioCodigo.value = "";
+                municipioBusca.setCustomValidity(
+                    municipioBusca.disabled ? "" : "Escolha um município da lista."
+                );
+            }
+        }
+
+        // Busca os municípios do estado escolhido
+        async function carregarMunicipios(uf, manterTexto) {
+            municipiosDoEstado = [];
+            listaMunicipios.innerHTML = "";
+
+            if (!manterTexto) {
+                municipioBusca.value = "";
+                municipioCodigo.value = "";
+            }
+
+            if (!uf) {
+                municipioBusca.disabled = true;
+                municipioBusca.placeholder = "Selecione o estado primeiro";
+                municipioBusca.setCustomValidity("");
+                atualizarBotao();
+                return;
+            }
+
+            municipioBusca.disabled = false;
+            municipioBusca.placeholder = "Digite para pesquisar o município";
+
+            try {
+                const resposta = await fetch("municipios.php?uf=" + encodeURIComponent(uf));
+                municipiosDoEstado = await resposta.json();
+            } catch (erro) {
+                municipiosDoEstado = [];
+            }
+
+            municipiosDoEstado.forEach(m => {
+                const opcao = document.createElement("option");
+                opcao.value = m.nome;
+                listaMunicipios.appendChild(opcao);
+            });
+
+            if (municipiosDoEstado.length === 0) {
+                municipioBusca.placeholder = "Nenhum município cadastrado para este estado";
+            }
+
+            validarMunicipio();
+            atualizarBotao();
+        }
+
+        estadoSelect.addEventListener("change", () => carregarMunicipios(estadoSelect.value, false));
+        municipioBusca.addEventListener("input", () => {
+            validarMunicipio();
+            atualizarBotao();
+        });
+
+        // Na edição, já carrega a lista do estado salvo mantendo o município
+        if (estadoSelect.value) {
+            carregarMunicipios(estadoSelect.value, true);
+        }
 
         // Verificação inicial
         atualizarBotao();

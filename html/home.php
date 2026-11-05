@@ -5,6 +5,15 @@ verificarLogin();
 
 $id = $_SESSION['id'];
 $resultado = listarProdutos($conexao);
+
+// ids dos produtos que o usuário já favoritou (uma consulta só)
+$favoritados = [];
+$stmtFav = $conexao->prepare("SELECT idProduto FROM favoritos WHERE idUsuario = ?");
+$stmtFav->bind_param("i", $id);
+$stmtFav->execute();
+foreach ($stmtFav->get_result()->fetch_all(MYSQLI_ASSOC) as $f) {
+    $favoritados[(int)$f['idProduto']] = true;
+}
 ?>
 
 <!DOCTYPE html>
@@ -301,6 +310,38 @@ $resultado = listarProdutos($conexao);
             background: var(--badge-seminovo);
         }
 
+        .btn-favorito {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.92);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 0;
+            transition: transform 0.12s ease;
+        }
+
+        .btn-favorito:hover { transform: scale(1.12); }
+
+        .btn-favorito svg {
+            width: 20px;
+            height: 20px;
+            display: block;
+            fill: none;
+            stroke: var(--vermelho-coracao);
+            stroke-width: 2;
+            stroke-linejoin: round;
+        }
+
+        .btn-favorito.ativo svg { fill: var(--vermelho-coracao); }
+
         .info {
             padding: 14px 16px 16px;
         }
@@ -478,7 +519,7 @@ $resultado = listarProdutos($conexao);
             Favoritos
         </a>
 
-        <a href="avaliacoes.php">
+        <a href="suasAvaliacoes.php">
             Avaliações
         </a>
 
@@ -489,42 +530,7 @@ $resultado = listarProdutos($conexao);
     </nav>
 
 
-    <!-- CATEGORIAS -->
-    <section class="categorias">
 
-        <h2>
-            Categorias
-        </h2>
-
-        <div class="lista-categorias">
-
-            <a href="#" class="pill">
-                Todos
-            </a>
-
-            <a href="#" class="pill">
-                Eletrônicos
-            </a>
-
-            <a href="#" class="pill">
-                Roupas
-            </a>
-
-            <a href="#" class="pill">
-                Casa
-            </a>
-
-            <a href="#" class="pill">
-                Esportes
-            </a>
-
-            <a href="#" class="pill">
-                Outros
-            </a>
-
-        </div>
-
-    </section>
 
 
     <!-- PRODUTOS -->
@@ -554,8 +560,21 @@ $resultado = listarProdutos($conexao);
                         <?php endif; ?>
 
                         <span class="badge">
-                            Produto
+                            <?= htmlspecialchars(!empty($produto['statusProduto']) ? $produto['statusProduto'] : ($produto['condicaoProduto'] ?? 'Produto')) ?>
                         </span>
+
+                        <?php $favoritou = isset($favoritados[(int)$produto['idProduto']]); ?>
+                        <button
+                            type="button"
+                            class="btn-favorito<?= $favoritou ? ' ativo' : '' ?>"
+                            data-id="<?= (int)$produto['idProduto'] ?>"
+                            title="<?= $favoritou ? 'Remover dos favoritos' : 'Favoritar' ?>"
+                            aria-label="Favoritar"
+                        >
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 20.5l-1.4-1.3C5.6 14.7 2.5 11.9 2.5 8.5 2.5 5.7 4.7 3.5 7.5 3.5c1.6 0 3.1.7 4.5 2.2 1.4-1.5 2.9-2.2 4.5-2.2 2.8 0 5 2.2 5 5 0 3.4-3.1 6.2-8.1 10.7L12 20.5z"/>
+                            </svg>
+                        </button>
 
                     </div>
 
@@ -625,6 +644,21 @@ $resultado = listarProdutos($conexao);
         <?php endif; ?>
 
     </main>
+
+    <script>
+        document.querySelectorAll('.btn-favorito').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var dados = new URLSearchParams({ idProduto: btn.dataset.id });
+                fetch('favoritar.php', { method: 'POST', body: dados })
+                    .then(function (r) { return r.text(); })
+                    .then(function (estado) {
+                        var favoritou = estado.trim() === '1';
+                        btn.classList.toggle('ativo', favoritou);
+                        btn.title = favoritou ? 'Remover dos favoritos' : 'Favoritar';
+                    });
+            });
+        });
+    </script>
 
 </body>
 </html>

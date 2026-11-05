@@ -5,10 +5,10 @@ require_once "./conexao.php";
 $nome = $_POST['nome'];
 $data_nascimento = $_POST['data_nascimento'];
 $email = $_POST['email'];
-$cpf = $_POST['cpf'];
+$cpf = preg_replace('/\D/', '', $_POST['cpf']); // só dígitos (coluna é CHAR(11))
 $username = $_POST['username'];
 $senha = $_POST['senha'];
-$municipio = $_POST['municipio'];
+$municipio = (int) $_POST['municipio']; // código do município
 $foto = $_FILES['foto'];
 
 $_SESSION['nome_usuario'] = $nome;
@@ -17,6 +17,16 @@ if (empty($email) || empty($senha) || empty($nome) || empty($data_nascimento) ||
     header("Location: formCadastro.php?erro=vazio");
     exit();
 }
+
+// confere se o município existe
+$stmtMun = $conexao->prepare("SELECT 1 FROM municipios WHERE codigo = ?");
+$stmtMun->bind_param("i", $municipio);
+$stmtMun->execute();
+if ($stmtMun->get_result()->num_rows === 0) {
+    header("Location: formCadastro.php?erro=municipio");
+    exit();
+}
+$stmtMun->close();
 
 $nome_arquivo = $_FILES['foto']['name'];
 $id = $_GET['id'];
@@ -77,4 +87,4 @@ if ($id == 0) {
     mysqli_stmt_execute($comando);
     mysqli_stmt_close($comando);
     header("Location: ./home.php?id=$id");
-}                                                                                                                                                                                             
+}
