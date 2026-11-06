@@ -227,20 +227,13 @@ $satisfacao = $resultado['total'] > 0 ? round(($resultado['boas'] / $resultado['
                 </svg>
                 Dados pessoais
             </a>
-            <a href="produtos.php">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M6 8h12l-1 12H7L6 8z"/>
-                    <path d="M9 8V6a3 3 0 0 1 6 0v2"/>
-                </svg>
-                Produtos
-            </a>
             <a href="favoritos.php">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M6 3h12v18l-6-4-6 4V3z"/>
                 </svg>
                 Favoritos
             </a>
-            <a href="#">
+            <a href="meusAnuncios.php">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <rect x="3" y="6" width="18" height="13" rx="2"/>
                     <path d="M8 6V4h8v2"/>

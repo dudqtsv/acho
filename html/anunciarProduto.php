@@ -254,7 +254,7 @@ if (isset($_POST['publicar'])) {
     <p class="subtitulo">Preencha as informações abaixo para anunciar seu produto</p>
     <hr>
 
-    <?php if ($sucesso) echo "<div class='msg sucesso'>$sucesso</div>"; ?>
+    <?php if ($sucesso) echo "<div class='msg sucesso'>$sucesso <a href='meusAnuncios.php'>Ver meus anúncios</a></div>"; ?>
     <?php if ($erro) echo "<div class='msg erro'>$erro</div>"; ?>
 
     <form method="POST" enctype="multipart/form-data">

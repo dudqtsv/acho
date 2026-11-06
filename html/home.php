@@ -469,6 +469,10 @@ foreach ($stmtFav->get_result()->fetch_all(MYSQLI_ASSOC) as $f) {
                 ❤️ Favoritos
             </a>
 
+            <a href="meusAnuncios.php" class="item">
+                📦 Meus anúncios
+            </a>
+
             <a href="anunciarProduto.php" class="btn-anunciar">
                 + Anunciar
             </a>
@@ -513,6 +517,10 @@ foreach ($stmtFav->get_result()->fetch_all(MYSQLI_ASSOC) as $f) {
 
         <a href="anunciarProduto.php">
             Anunciar produto
+        </a>
+
+        <a href="meusAnuncios.php">
+            Meus anúncios
         </a>
 
         <a href="favoritos.php">
